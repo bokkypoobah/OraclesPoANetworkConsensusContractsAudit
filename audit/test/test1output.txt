@@ -1,0 +1,788 @@
+MODE                          = 'test'
+GETHATTACHPOINT               = 'ipc:./testchain/geth.ipc'
+PASSWORD                      = 'testtest'
+SOURCEDIR                     = '../../contracts'
+BALLOTSTORAGESOL              = 'BallotsStorage.sol'
+BALLOTSTORAGEJS               = 'BallotsStorage.js'
+KEYSMANAGERSOL                = 'KeysManager.sol'
+KEYSMANAGERJS                 = 'KeysManager.js'
+POANETWORKCONSENSUSSOL        = 'PoaNetworkConsensus.sol'
+POANETWORKCONSENSUSJS         = 'PoaNetworkConsensus.js'
+PROXYSTORAGESOL               = 'ProxyStorage.sol'
+PROXYSTORAGEJS                = 'ProxyStorage.js'
+VALIDATORMETADATASOL          = 'ValidatorMetadata.sol'
+VALIDATORMETADATAJS           = 'ValidatorMetadata.js'
+VOTINGTOCHANGEKEYSSOL         = 'VotingToChangeKeys.sol'
+VOTINGTOCHANGEKEYSJS          = 'VotingToChangeKeys.js'
+VOTINGTOCHANGEMINTHRESHOLDSOL = 'VotingToChangeMinThreshold.sol'
+VOTINGTOCHANGEMINTHRESHOLDJS  = 'VotingToChangeMinThreshold.js'
+VOTINGTOCHANGEPROXYADDRESSSOL = 'VotingToChangeProxyAddress.sol'
+VOTINGTOCHANGEPROXYADDRESSJS  = 'VotingToChangeProxyAddress.js'
+DEPLOYMENTDATA                = 'deploymentData.txt'
+INCLUDEJS                     = './include.js'
+TEST1OUTPUT                   = 'test1output.txt'
+TEST1RESULTS                  = 'test1results.txt'
+CURRENTTIME                   = '1512799070' 'Sat  9 Dec 2017 05:57:50 UTC'
+START_DATE                    = '1512799220' 'Sat  9 Dec 2017 06:00:20 UTC'
+END_DATE                      = '1512799310' 'Sat  9 Dec 2017 06:01:50 UTC'
+--- Differences ../../contracts/ProxyStorage.sol ProxyStorage.sol ---
+7,12c7,12
+<     address poaConsensus;
+<     address keysManager;
+<     address votingToChangeKeys;
+<     address votingToChangeMinThreshold;
+<     address votingToChangeProxy;
+<     address ballotsStorage;
+---
+>     address public poaConsensus;
+>     address public keysManager;
+>     address public votingToChangeKeys;
+>     address public votingToChangeMinThreshold;
+>     address public votingToChangeProxy;
+>     address public ballotsStorage;
+--- Differences ../../contracts/VotingToChangeKeys.sol VotingToChangeKeys.sol ---
+20c20
+<     uint8 thresholdForKeysType = 1;
+---
+>     uint8 public thresholdForKeysType = 1;
+--- Differences ../../contracts/VotingToChangeMinThreshold.sol VotingToChangeMinThreshold.sol ---
+18c18
+<     uint8 thresholdForKeysType = 1;
+---
+>     uint8 public thresholdForKeysType = 1;
+solc, the solidity compiler commandline interface
+Version: 0.4.18+commit.9cf6e910.Darwin.appleclang
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.7.3-stable-4bb3c89d/darwin-amd64/go1.9.2
+coinbase: 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e
+at block: 2785 (Sat, 09 Dec 2017 16:57:18 AEDT)
+ datadir: /Users/bok/Projects/OraclesPoANetworkConsensusContractsAudit/audit/test/testchain
+ modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+> 
+true
+> 
+true
+> 
+true
+> 
+true
+> 
+true
+> 
+true
+> 
+true
+> 
+true
+> 
+true
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+> 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e        0.000000000000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433        0.000000000000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: PoaNetworkConsensus
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+... 
+undefined
+> 
+DATA: pncAddress=0x162dbc5e67f07992961e5f84d12f5cf887411b58
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e        6.053152450000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.053152450000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: 12 0x162dbc5e67f07992961e5f84d12f5cf887411b58        0.000000000000000000           0.000000000000000000 PoaNetworkConsensus
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS PoaNetworkConsensus
+1
+> 
+RESULT: pncTx status=0x1 Success gas=6000000 gasUsed=1063049 costETH=0.05315245 costUSD=24.1072936975 @ ETH/USD=453.55 gasPrice=50 gwei block=2787 txIx=0 txId=0x149677576161d6eefc7560e956c1b249184816ddba90a3b0fc7aff057fb21b0e @ 1512799086 Sat, 09 Dec 2017 05:58:06 UTC
+undefined
+> 
+RESULT: poaNetworkConsensusContractAddress=0x162dbc5e67f07992961e5f84d12f5cf887411b58
+RESULT: poaNetworkConsensus.finalized=false
+RESULT: poaNetworkConsensus.isMasterOfCeremonyInitialized=false
+RESULT: poaNetworkConsensus.systemAddress=0xfffffffffffffffffffffffffffffffffffffffe
+RESULT: poaNetworkConsensus.currentValidators(0)=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: poaNetworkConsensus.pendingList(0)=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: poaNetworkConsensus.currentValidatorsLength=1
+RESULT: poaNetworkConsensus.proxyStorage=0x0000000000000000000000000000000000000000
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: ProxyStorage
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+... 
+undefined
+> 
+DATA: psAddress=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       12.078684150000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.078684150000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: 12 0x162dbc5e67f07992961e5f84d12f5cf887411b58        0.000000000000000000           0.000000000000000000 PoaNetworkConsensus
+RESULT: 13 0xe9e4f77f7d482cba5fef68e46402016aa289bf1f        0.000000000000000000           0.000000000000000000 ProxyStorage
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS ProxyStorage
+1
+> 
+RESULT: psTx status=0x1 Success gas=6000000 gasUsed=510634 costETH=0.0255317 costUSD=11.579902535 @ ETH/USD=453.55 gasPrice=50 gwei block=2789 txIx=0 txId=0xeac0ed63c8910b72fd3d65923d4c2e2d4f4cc5595ee15677c83abcb6f9a3caa9 @ 1512799120 Sat, 09 Dec 2017 05:58:40 UTC
+undefined
+> 
+RESULT: proxyStorageContractAddress=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: proxyStorage.masterOfCeremony=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: proxyStorage.poaConsensus=0x162dbc5e67f07992961e5f84d12f5cf887411b58
+RESULT: proxyStorage.keysManager=0x0000000000000000000000000000000000000000
+RESULT: proxyStorage.votingToChangeKeys=0x0000000000000000000000000000000000000000
+RESULT: proxyStorage.votingToChangeMinThreshold=0x0000000000000000000000000000000000000000
+RESULT: proxyStorage.votingToChangeProxy=0x0000000000000000000000000000000000000000
+RESULT: proxyStorage.ballotsStorage=0x0000000000000000000000000000000000000000
+RESULT: proxyStorage.mocInitialized=false
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: Setup PoaNetworkConsensus
+undefined
+> 
+undefined
+> 
+... 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       18.081157650000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.078684150000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976       -0.002473500000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: 12 0x162dbc5e67f07992961e5f84d12f5cf887411b58        0.000000000000000000           0.000000000000000000 PoaNetworkConsensus
+RESULT: 13 0xe9e4f77f7d482cba5fef68e46402016aa289bf1f        0.000000000000000000           0.000000000000000000 ProxyStorage
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS Setup PoaNetworkConsensus - pnc.setProxyStorage(ps)
+1
+> 
+RESULT: setupPnc_1Tx status=0x1 Success gas=100000 gasUsed=49470 costETH=0.0024735 costUSD=1.121855925 @ ETH/USD=453.55 gasPrice=50 gwei block=2791 txIx=0 txId=0xaae2080886b5e1626fb790cc474027f71475fe213996955a90cb73ded2c5807c @ 1512799129 Sat, 09 Dec 2017 05:58:49 UTC
+undefined
+> 
+RESULT: poaNetworkConsensusContractAddress=0x162dbc5e67f07992961e5f84d12f5cf887411b58
+RESULT: poaNetworkConsensus.finalized=false
+RESULT: poaNetworkConsensus.isMasterOfCeremonyInitialized=true
+RESULT: poaNetworkConsensus.systemAddress=0xfffffffffffffffffffffffffffffffffffffffe
+RESULT: poaNetworkConsensus.currentValidators(0)=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: poaNetworkConsensus.pendingList(0)=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: poaNetworkConsensus.currentValidatorsLength=1
+RESULT: poaNetworkConsensus.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: MoCInitializedProxyStorage 0 #2791 {"proxyStorage":"0xe9e4f77f7d482cba5fef68e46402016aa289bf1f"}
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: BallotsStorage
+undefined
+> 
+RESULT: ValidatorMetadata
+undefined
+> 
+RESULT: VotingToChangeKeys
+undefined
+> 
+RESULT: VotingToChangeMinThreshold
+undefined
+> 
+RESULT: VotingToChangeProxyAddress
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+... 
+undefined
+> 
+DATA: bsAddress=0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe
+DATA: vmAddress=0x00f5a74450aa51aa9a47d00ebb5c2b239a2d1b49
+DATA: vtckAddress=0x3fa7f1cf312d55106c13f9d802b57595e4520373
+DATA: vtcmtAddress=0xe60b9dcbaab4a99d029802f85032e767ebd889f8
+DATA: vtcpaAddress=0xc4ba8fc6f431682a3168c0659aeec4adacd92e62
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       24.382905700000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.380432200000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976       -0.002473500000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: 12 0x162dbc5e67f07992961e5f84d12f5cf887411b58        0.000000000000000000           0.000000000000000000 PoaNetworkConsensus
+RESULT: 13 0xe9e4f77f7d482cba5fef68e46402016aa289bf1f        0.000000000000000000           0.000000000000000000 ProxyStorage
+RESULT: 14 0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe        0.000000000000000000           0.000000000000000000 BallotsStorage
+RESULT: 15 0x00f5a74450aa51aa9a47d00ebb5c2b239a2d1b49        0.000000000000000000           0.000000000000000000 ValidatorMetadata
+RESULT: 16 0x3fa7f1cf312d55106c13f9d802b57595e4520373        0.000000000000000000           0.000000000000000000 VotingToChangeKeys
+RESULT: 17 0xe60b9dcbaab4a99d029802f85032e767ebd889f8        0.000000000000000000           0.000000000000000000 VotingToChangeMinThreshold
+RESULT: 18 0xc4ba8fc6f431682a3168c0659aeec4adacd92e62        0.000000000000000000           0.000000000000000000 VotingToChangeProxyAddress
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS BallotsStorage
+1
+> 
+RESULT: PASS ValidatorMetadata
+1
+> 
+RESULT: PASS VotingToChangeKeys
+1
+> 
+RESULT: PASS VotingToChangeMinThreshold
+1
+> 
+RESULT: PASS VotingToChangeProxyAddress
+1
+> 
+RESULT: bsTx status=0x1 Success gas=6000000 gasUsed=361829 costETH=0.01809145 costUSD=8.2053771475 @ ETH/USD=453.55 gasPrice=50 gwei block=2793 txIx=0 txId=0x873f90e1eff66865822f00909cdb53ce36f70fe540b2b73ab5bed5ec3beca4f2 @ 1512799157 Sat, 09 Dec 2017 05:59:17 UTC
+undefined
+> 
+RESULT: vmTx status=0x1 Success gas=6000000 gasUsed=1218270 costETH=0.0609135 costUSD=27.627317925 @ ETH/USD=453.55 gasPrice=50 gwei block=2793 txIx=1 txId=0xae8240738645761f48e7f63b095b4298138f43c6fcf30fdacaedb7f6e02cca23 @ 1512799157 Sat, 09 Dec 2017 05:59:17 UTC
+undefined
+> 
+RESULT: vtckTx status=0x1 Success gas=6000000 gasUsed=1920287 costETH=0.09601435 costUSD=43.5473084425 @ ETH/USD=453.55 gasPrice=50 gwei block=2793 txIx=2 txId=0xc6500cc1240e795917d01f9a82fa18bd21801dea0c01ae454fa3045a9f67745c @ 1512799157 Sat, 09 Dec 2017 05:59:17 UTC
+undefined
+> 
+RESULT: vtcmtTx status=0x1 Success gas=6000000 gasUsed=1267612 costETH=0.0633806 costUSD=28.74627113 @ ETH/USD=453.55 gasPrice=50 gwei block=2793 txIx=3 txId=0x3026e09dfd2785c7ca66e547f04cd514352325d5299e9315704bce37b360026a @ 1512799157 Sat, 09 Dec 2017 05:59:17 UTC
+undefined
+> 
+RESULT: vtcpaTx status=0x1 Success gas=6000000 gasUsed=1266963 costETH=0.06334815 costUSD=28.7315534325 @ ETH/USD=453.55 gasPrice=50 gwei block=2793 txIx=4 txId=0xd819087a7e3ec4733b93664a128ff2f3e9bafdfcea354e6b7e9379adae3f12a0 @ 1512799157 Sat, 09 Dec 2017 05:59:17 UTC
+undefined
+> 
+RESULT: ballotsStorageContractAddress=0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe
+RESULT: ballotsStorage.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+undefined
+> 
+RESULT: validatorMetadataContractAddress=0x00f5a74450aa51aa9a47d00ebb5c2b239a2d1b49
+RESULT: validatorMetadata.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+undefined
+> 
+RESULT: votingToChangeKeysContractAddress=0x3fa7f1cf312d55106c13f9d802b57595e4520373
+RESULT: votingToChangeKeys.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: votingToChangeKeys.maxOldMiningKeysDeepCheck=25
+RESULT: votingToChangeKeys.nextBallotId=0
+RESULT: votingToChangeKeys.activeBallots(0)=0
+RESULT: votingToChangeKeys.activeBallotsLength=0
+RESULT: votingToChangeKeys.thresholdForKeysType=1
+undefined
+> 
+RESULT: votingToChangeMinThresholdContractAddress=0xe60b9dcbaab4a99d029802f85032e767ebd889f8
+RESULT: votingToChangeMinThreshold.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: votingToChangeMinThreshold.maxOldMiningKeysDeepCheck=25
+RESULT: votingToChangeMinThreshold.nextBallotId=0
+RESULT: votingToChangeMinThreshold.activeBallots(0)=0
+RESULT: votingToChangeMinThreshold.activeBallotsLength=0
+RESULT: votingToChangeMinThreshold.thresholdForKeysType=1
+undefined
+> 
+RESULT: votingToChangeProxyAddressContractAddress=0xc4ba8fc6f431682a3168c0659aeec4adacd92e62
+RESULT: votingToChangeProxyAddress.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: votingToChangeProxyAddress.maxOldMiningKeysDeepCheck=25
+RESULT: votingToChangeProxyAddress.nextBallotId=0
+RESULT: votingToChangeProxyAddress.activeBallots(0)=0
+RESULT: votingToChangeProxyAddress.activeBallotsLength=0
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: KeysManager
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+... 
+undefined
+> 
+DATA: kmAddress=0xe8d1c452622a9b3387258e0a8fa20d7ab6b788c9
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       30.474220250000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.471746750000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976       -0.002473500000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: 12 0x162dbc5e67f07992961e5f84d12f5cf887411b58        0.000000000000000000           0.000000000000000000 PoaNetworkConsensus
+RESULT: 13 0xe9e4f77f7d482cba5fef68e46402016aa289bf1f        0.000000000000000000           0.000000000000000000 ProxyStorage
+RESULT: 14 0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe        0.000000000000000000           0.000000000000000000 BallotsStorage
+RESULT: 15 0x00f5a74450aa51aa9a47d00ebb5c2b239a2d1b49        0.000000000000000000           0.000000000000000000 ValidatorMetadata
+RESULT: 16 0x3fa7f1cf312d55106c13f9d802b57595e4520373        0.000000000000000000           0.000000000000000000 VotingToChangeKeys
+RESULT: 17 0xe60b9dcbaab4a99d029802f85032e767ebd889f8        0.000000000000000000           0.000000000000000000 VotingToChangeMinThreshold
+RESULT: 18 0xc4ba8fc6f431682a3168c0659aeec4adacd92e62        0.000000000000000000           0.000000000000000000 VotingToChangeProxyAddress
+RESULT: 19 0xe8d1c452622a9b3387258e0a8fa20d7ab6b788c9        0.000000000000000000           0.000000000000000000 KeysManager
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS KeysManager
+1
+> 
+RESULT: kmTx status=0x1 Success gas=6000000 gasUsed=1826291 costETH=0.09131455 costUSD=41.4157141525 @ ETH/USD=453.55 gasPrice=50 gwei block=2795 txIx=0 txId=0x05953e15206ed6aa5b663a03547440bf39c19b2cfec4c461d3e3ecd5677f1681 @ 1512799189 Sat, 09 Dec 2017 05:59:49 UTC
+undefined
+> 
+RESULT: keysManagerContractAddress=0xe8d1c452622a9b3387258e0a8fa20d7ab6b788c9
+RESULT: keysManager.masterOfCeremony=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: keysManager.proxyStorage=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: keysManager.poaNetworkConsensus=0x162dbc5e67f07992961e5f84d12f5cf887411b58
+RESULT: keysManager.maxNumberOfInitialKeys=12
+RESULT: keysManager.initialKeysCount=0
+RESULT: keysManager.maxLimitValidators=2000
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: Setup ProxyStorage
+undefined
+> 
+undefined
+> 
+... 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange                          Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       39.480796300000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.471746750000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976       -0.009049550000000000           0.000000000000000000 Account #2 - MoC
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11
+RESULT: 12 0x162dbc5e67f07992961e5f84d12f5cf887411b58        0.000000000000000000           0.000000000000000000 PoaNetworkConsensus
+RESULT: 13 0xe9e4f77f7d482cba5fef68e46402016aa289bf1f        0.000000000000000000           0.000000000000000000 ProxyStorage
+RESULT: 14 0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe        0.000000000000000000           0.000000000000000000 BallotsStorage
+RESULT: 15 0x00f5a74450aa51aa9a47d00ebb5c2b239a2d1b49        0.000000000000000000           0.000000000000000000 ValidatorMetadata
+RESULT: 16 0x3fa7f1cf312d55106c13f9d802b57595e4520373        0.000000000000000000           0.000000000000000000 VotingToChangeKeys
+RESULT: 17 0xe60b9dcbaab4a99d029802f85032e767ebd889f8        0.000000000000000000           0.000000000000000000 VotingToChangeMinThreshold
+RESULT: 18 0xc4ba8fc6f431682a3168c0659aeec4adacd92e62        0.000000000000000000           0.000000000000000000 VotingToChangeProxyAddress
+RESULT: 19 0xe8d1c452622a9b3387258e0a8fa20d7ab6b788c9        0.000000000000000000           0.000000000000000000 KeysManager
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS Setup ProxyStorage - ps.initializeAddresses(km, vtck, vtcmt, vtcpa, bs)
+1
+> 
+RESULT: setupPs_1Tx status=0x1 Success gas=200000 gasUsed=131521 costETH=0.00657605 costUSD=2.9825674775 @ ETH/USD=453.55 gasPrice=50 gwei block=2798 txIx=0 txId=0x4a375783b8b40c30675ebd5e2daec653d8ed84f1f13140df399cdc5572a65e12 @ 1512799193 Sat, 09 Dec 2017 05:59:53 UTC
+undefined
+> 
+RESULT: proxyStorageContractAddress=0xe9e4f77f7d482cba5fef68e46402016aa289bf1f
+RESULT: proxyStorage.masterOfCeremony=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: proxyStorage.poaConsensus=0x162dbc5e67f07992961e5f84d12f5cf887411b58
+RESULT: proxyStorage.keysManager=0xe8d1c452622a9b3387258e0a8fa20d7ab6b788c9
+RESULT: proxyStorage.votingToChangeKeys=0x3fa7f1cf312d55106c13f9d802b57595e4520373
+RESULT: proxyStorage.votingToChangeMinThreshold=0xe60b9dcbaab4a99d029802f85032e767ebd889f8
+RESULT: proxyStorage.votingToChangeProxy=0xc4ba8fc6f431682a3168c0659aeec4adacd92e62
+RESULT: proxyStorage.ballotsStorage=0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe
+RESULT: proxyStorage.mocInitialized=true
+RESULT: ProxyInitialized 0 #2798 {"ballotsStorage":"0x9aaa80ca6d55e00064e1d6de90297120fe3edcbe","keysManager":"0xe8d1c452622a9b3387258e0a8fa20d7ab6b788c9","votingToChangeKeys":"0x3fa7f1cf312d55106c13f9d802b57595e4520373","votingToChangeMinThreshold":"0xe60b9dcbaab4a99d029802f85032e767ebd889f8","votingToChangeProxy":"0xc4ba8fc6f431682a3168c0659aeec4adacd92e62"}
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
