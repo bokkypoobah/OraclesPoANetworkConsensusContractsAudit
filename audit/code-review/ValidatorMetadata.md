@@ -111,6 +111,7 @@ contract ValidatorMetadata {
             minThreshold: validators[miningKey].minThreshold
         });
         pendingChanges[miningKey] = pendingChange;
+        confirmations[miningKey] = 0;
         ChangeRequestInitiated(miningKey);
         return true;
     }

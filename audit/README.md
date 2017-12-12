@@ -9,7 +9,8 @@ Status: Work in progress (Aiming for < 15/12/2017)
 Bok Consulting Pty Ltd was commissioned to perform an audit on the Oracles Network's PoA Network Consensus Ethereum smart contract.
 
 This audit has been conducted on Oracles Network's source code in commits
-[f706e4f](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/f706e4fa8d846b03c5f935e22696cc373d28afea).
+[f706e4f](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/f706e4fa8d846b03c5f935e22696cc373d28afea) and
+[9625b09](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/9625b09e3f8af8dd4e30fade6b3ca653f5781f49).
 
 TODO: Check that no potential vulnerabilities have been identified in the presale contract.
 
