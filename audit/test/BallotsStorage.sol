@@ -9,6 +9,7 @@ contract BallotsStorage is IBallotsStorage {
     using SafeMath for uint256;
 
     enum ThresholdTypes {Invalid, Keys, MetadataChange}
+    event ThresholdChanged(uint8 indexed thresholdType, uint256 newValue);
     IProxyStorage public proxyStorage;
     mapping(uint8 => uint256) ballotThresholds;
 
@@ -28,6 +29,7 @@ contract BallotsStorage is IBallotsStorage {
         require(_thresholdType <= uint8(ThresholdTypes.MetadataChange));
         require(_newValue > 0 && _newValue != ballotThresholds[_thresholdType]);
         ballotThresholds[_thresholdType] = _newValue;
+        ThresholdChanged(_thresholdType, _newValue);
     }
 
     function getBallotThreshold(uint8 _ballotType) public view returns(uint256) {
@@ -45,5 +47,13 @@ contract BallotsStorage is IBallotsStorage {
 
     function getProxyThreshold() public view returns(uint256) {
         return getTotalNumberOfValidators().div(2).add(1);
+    }
+
+    function getBallotLimitPerValidator() public view returns(uint256) {
+        return getMaxLimitBallot().div(getTotalNumberOfValidators());
+    }
+    
+    function getMaxLimitBallot() public view returns(uint256) {
+        return 200;
     }
 }

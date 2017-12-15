@@ -28,11 +28,13 @@ contract VotingToChangeMinThreshold {
         uint256 minThresholdOfVoters;
         uint256 proposedValue;
         mapping(address => bool) voters;
+        address creator;
     }
 
     mapping(uint256 => VotingData) public votingState;
+    mapping(address => uint256) public validatorActiveBallots;
 
-    event Vote(uint256 indexed decision, address indexed voter, uint256 time );
+    event Vote(uint256 indexed id, uint256 decision, address indexed voter, uint256 time );
     event BallotFinalized(uint256 indexed id, address indexed voter);
     event BallotCreated(uint256 indexed id, uint256 indexed ballotType, address indexed creator);
 
@@ -58,9 +60,10 @@ contract VotingToChangeMinThreshold {
         uint256 _endTime,
         uint256 _proposedValue
         ) public onlyValidVotingKey(msg.sender) isValidProposedValue(_proposedValue) {
-        require(activeBallotsLength <= 100);
         require(_startTime > 0 && _endTime > 0);
         require(_endTime > _startTime && _startTime > getTime());
+        address creatorMiningKey = getMiningByVotingKey(msg.sender);
+        require(withinLimit(creatorMiningKey));
         VotingData memory data = VotingData({
             startTime: _startTime,
             endTime: _endTime,
@@ -70,11 +73,13 @@ contract VotingToChangeMinThreshold {
             quorumState: uint8(QuorumStates.InProgress),
             index: activeBallots.length,
             proposedValue: _proposedValue,
-            minThresholdOfVoters: getGlobalMinThresholdOfVoters()
+            minThresholdOfVoters: getGlobalMinThresholdOfVoters(),
+            creator: creatorMiningKey
         });
         votingState[nextBallotId] = data;
         activeBallots.push(nextBallotId);
         activeBallotsLength = activeBallots.length;
+        _increaseValidatorLimit();
         BallotCreated(nextBallotId, 4, msg.sender);
         nextBallotId++;
     }
@@ -92,13 +97,15 @@ contract VotingToChangeMinThreshold {
         }
         ballot.totalVoters++;
         ballot.voters[miningKey] = true;
-        Vote(_choice, msg.sender, getTime());
+        Vote(_id, _choice, msg.sender, getTime());
     }
 
     function finalize(uint256 _id) public onlyValidVotingKey(msg.sender) {
         require(!isActive(_id));
+        require(!getIsFinalized(_id));
         VotingData storage ballot = votingState[_id];
         finalizeBallot(_id);
+        _decreaseValidatorLimit(_id);
         ballot.isFinalized = true;
         BallotFinalized(_id, msg.sender);
     }
@@ -109,6 +116,11 @@ contract VotingToChangeMinThreshold {
 
     function getKeysManager() public view returns(address) {
         return proxyStorage.getKeysManager();
+    }
+
+    function getBallotLimitPerValidator() public view returns(uint256) {
+        IBallotsStorage ballotsStorage = IBallotsStorage(getBallotsStorage());
+        return ballotsStorage.getBallotLimitPerValidator();
     }
 
     function getProposedValue(uint256 _id) public view returns(uint256) {
@@ -155,7 +167,7 @@ contract VotingToChangeMinThreshold {
 
     function isActive(uint256 _id) public view returns(bool) {
         bool withinTime = getStartTime(_id) <= getTime() && getTime() <= getEndTime(_id);
-        return withinTime && !getIsFinalized(_id);
+        return withinTime;
     }
 
     function hasAlreadyVoted(uint256 _id, address _votingKey) public view returns(bool) {
@@ -188,6 +200,10 @@ contract VotingToChangeMinThreshold {
         return false;
     }
 
+    function withinLimit(address _miningKey) public view returns(bool) {
+        return validatorActiveBallots[_miningKey] <= getBallotLimitPerValidator();
+    }
+
     function finalizeBallot(uint256 _id) private {
         IBallotsStorage ballotsStorage = IBallotsStorage(getBallotsStorage());
         if (getProgress(_id) > 0 && getTotalVoters(_id) >= getMinThresholdOfVoters(_id)) {
@@ -205,11 +221,29 @@ contract VotingToChangeMinThreshold {
     }
 
     function deactiveBallot(uint256 _id) private {
-        VotingData memory ballot = votingState[_id];
-        delete activeBallots[ballot.index];
+        VotingData storage ballot = votingState[_id];
+        uint256 removedIndex = ballot.index;
+        uint256 lastIndex = activeBallots.length - 1;
+        uint256 lastBallotId = activeBallots[lastIndex];
+        // Override the removed ballot with the last one.
+        activeBallots[removedIndex] = lastBallotId;
+        // Update the index of the last validator.
+        votingState[lastBallotId].index = removedIndex;
+        delete activeBallots[lastIndex];
         if (activeBallots.length > 0) {
             activeBallots.length--;
         }
         activeBallotsLength = activeBallots.length;
+    }
+
+    function _increaseValidatorLimit() private {
+        address miningKey = getMiningByVotingKey(msg.sender);
+        validatorActiveBallots[miningKey] = validatorActiveBallots[miningKey].add(1);
+    }
+
+    function _decreaseValidatorLimit(uint256 _id) private {
+        VotingData storage ballot = votingState[_id];
+        address miningKey = ballot.creator;
+        validatorActiveBallots[miningKey] = validatorActiveBallots[miningKey].sub(1);
     }
 }
