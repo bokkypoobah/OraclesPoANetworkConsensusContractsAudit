@@ -10,8 +10,9 @@ Bok Consulting Pty Ltd was commissioned to perform an audit on the Oracles Netwo
 
 This audit has been conducted on Oracles Network's source code in commits
 [f706e4f](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/f706e4fa8d846b03c5f935e22696cc373d28afea),
-[9625b09](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/9625b09e3f8af8dd4e30fade6b3ca653f5781f49) and
-[cec573c](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/cec573cf93480355510c299b5d1b0fd39b5578d3).
+[9625b09](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/9625b09e3f8af8dd4e30fade6b3ca653f5781f49),
+[cec573c](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/cec573cf93480355510c299b5d1b0fd39b5578d3) and
+[fd8f215](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/fd8f2154b02c132e38ea07e95254f31f7511ca0a).
 
 TODO: Check that no potential vulnerabilities have been identified in the presale contract.
 
@@ -31,22 +32,39 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 
 ## Testing
 
+* Setting up contracts
+  * Deploy `PoaNetworkConsensus(mocWallet)`
+  * Deploy `ProxyStorage(poaNetworkConsensus, mocWallet)`
+  * `PoaNetworkConsensus.setProxyStorage(proxyStorageAddress)`
+  * Deploy `BallotsStorage(poaNetworkConsensusAddress`
+  * Deploy `ValidatorMetadata(poaNetworkConsensusAddress`
+  * Deploy `VotingToChangeKeys(poaNetworkConsensusAddress)`
+  * Deploy `VotingToChangeMinThreshold(poaNetworkConsensusAddress)`
+  * Deploy `VotingToChangeProxyAddress(poaNetworkConsensusAddress)`
+  * Deploy `KeysManager(proxyStorageAddress, poaNetworkConsensusAddress, mocWallet)`
+  * `proxyStorage.initializeAddresses(kmAddress, vtckAddress, vtcmtAddress, vtcpaAddress, bsAddress)`
+
 <br />
 
 <hr />
 
 ## Code Review
 
-* [x] [code-review/SafeMath.md](code-review/SafeMath.md)
-  * [x] library SafeMath
-* [ ] [code-review/interfaces/IBallotsStorage.md](code-review/interfaces/IBallotsStorage.md)
-  * [ ] interface IBallotsStorage
+### contracts/interfaces
+
+* [x] [code-review/interfaces/IBallotsStorage.md](code-review/interfaces/IBallotsStorage.md)
+  * [x] interface IBallotsStorage
 * [ ] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
   * [ ] contract IKeysManager
 * [ ] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
   * [ ] contract IPoaNetworkConsensus
 * [ ] [code-review/interfaces/IProxyStorage.md](code-review/interfaces/IProxyStorage.md)
   * [ ] interface IProxyStorage
+
+### contracts
+
+* [x] [code-review/SafeMath.md](code-review/SafeMath.md)
+  * [x] library SafeMath
 * [ ] [code-review/BallotsStorage.md](code-review/BallotsStorage.md)
   * [ ] contract BallotsStorage is IBallotsStorage
 * [ ] [code-review/KeysManager.md](code-review/KeysManager.md)
