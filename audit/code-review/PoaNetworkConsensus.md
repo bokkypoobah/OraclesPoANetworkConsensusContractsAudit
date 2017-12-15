@@ -41,8 +41,10 @@ contract PoaNetworkConsensus is IPoaNetworkConsensus {
     bool public isMasterOfCeremonyInitialized = false;
     address public masterOfCeremony;
     address public systemAddress = 0xfffffffffffffffffffffffffffffffffffffffe;
+    // BK Ok
     address[] public currentValidators;
     address[] public pendingList;
+    // BK Ok
     uint256 public currentValidatorsLength;
     mapping(address => ValidatorState) public validatorsState;
     IProxyStorage public proxyStorage;
@@ -85,6 +87,7 @@ contract PoaNetworkConsensus is IPoaNetworkConsensus {
                 index: i
             });
         }
+        // BK Ok
         currentValidatorsLength = currentValidators.length;
         pendingList = currentValidators;
     }
@@ -106,6 +109,7 @@ contract PoaNetworkConsensus is IPoaNetworkConsensus {
     function finalizeChange() public onlySystemAndNotFinalized {
         finalized = true;
         currentValidators = pendingList;
+        // BK Ok
         currentValidatorsLength = currentValidators.length;
         ChangeFinalized(getValidators());
     }

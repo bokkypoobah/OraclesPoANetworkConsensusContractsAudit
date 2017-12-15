@@ -47,7 +47,7 @@ contract VotingToChangeMinThreshold {
     mapping(uint256 => VotingData) public votingState;
     mapping(address => uint256) public validatorActiveBallots;
 
-    event Vote(uint256 indexed decision, address indexed voter, uint256 time );
+    event Vote(uint256 indexed id, uint256 decision, address indexed voter, uint256 time );
     event BallotFinalized(uint256 indexed id, address indexed voter);
     event BallotCreated(uint256 indexed id, uint256 indexed ballotType, address indexed creator);
 
@@ -75,7 +75,6 @@ contract VotingToChangeMinThreshold {
         uint256 _endTime,
         uint256 _proposedValue
         ) public onlyValidVotingKey(msg.sender) isValidProposedValue(_proposedValue) {
-        require(activeBallotsLength <= 100);
         require(_startTime > 0 && _endTime > 0);
         require(_endTime > _startTime && _startTime > getTime());
         address creatorMiningKey = getMiningByVotingKey(msg.sender);
@@ -113,7 +112,7 @@ contract VotingToChangeMinThreshold {
         }
         ballot.totalVoters++;
         ballot.voters[miningKey] = true;
-        Vote(_choice, msg.sender, getTime());
+        Vote(_id, _choice, msg.sender, getTime());
     }
 
     function finalize(uint256 _id) public onlyValidVotingKey(msg.sender) {

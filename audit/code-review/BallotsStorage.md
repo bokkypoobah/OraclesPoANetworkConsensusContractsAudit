@@ -21,11 +21,12 @@ contract BallotsStorage is IBallotsStorage {
     // BK Ok
     using SafeMath for uint256;
 
-    // BK NOTE - 1 Invalid
-    // BK NOTE - 2 Keys
-    // BK NOTE - 3 MetadataChange
+    // BK NOTE - 0=Invalid, 1=Keys, 2=MetadataChange
+    // BK Ok
     enum ThresholdTypes {Invalid, Keys, MetadataChange}
+    // BK Ok - Event
     event ThresholdChanged(uint8 indexed thresholdType, uint256 newValue);
+    // BK Ok
     IProxyStorage public proxyStorage;
     mapping(uint8 => uint256) ballotThresholds;
 
@@ -45,7 +46,7 @@ contract BallotsStorage is IBallotsStorage {
     // BK NOTE - Called by VotingToChangeMinTheshold.finalizeBallot()
     // BK Ok
     function setThreshold(uint256 _newValue, uint8 _thresholdType) public onlyVotingToChangeThreshold {
-        // BK NOTE - 1..3
+        // BK NOTE - 1=Keys..2=MetadataChange
         // BK Next 2 Ok
         require(_thresholdType > 0);
         require(_thresholdType <= uint8(ThresholdTypes.MetadataChange));

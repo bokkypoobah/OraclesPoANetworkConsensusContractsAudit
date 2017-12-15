@@ -57,7 +57,10 @@ contract ProxyStorage is IProxyStorage {
         return votingToChangeKeys;
     }
 
+    // BK NOTE - Called by BallotsStorage.getVotingToChangeThreshold()
+    // BK Ok - View function
     function getVotingToChangeMinThreshold() public view returns(address) {
+        // BK Ok
         return votingToChangeMinThreshold;
     }
 
@@ -65,7 +68,10 @@ contract ProxyStorage is IProxyStorage {
         return votingToChangeProxy;
     }
 
+    // BK NOTE - Called by BallotsStorage.getTotalNumberOfValidators()
+    // BK Ok - View function
     function getPoaConsensus() public view returns(address) {
+        // BK Ok
         return poaConsensus;
     }
 
