@@ -7,11 +7,15 @@ Source file [../../contracts/ProxyStorage.sol](../../contracts/ProxyStorage.sol)
 <hr />
 
 ```javascript
+// BK Ok
 pragma solidity ^0.4.18;
+// BK Ok
 import "./interfaces/IProxyStorage.sol";
 
 
+// BK Ok
 contract ProxyStorage is IProxyStorage {
+    // BK Next block Ok
     address public masterOfCeremony;
     address poaConsensus;
     address keysManager;
@@ -21,6 +25,7 @@ contract ProxyStorage is IProxyStorage {
     address ballotsStorage;
     bool public mocInitialized;
 
+    // BK Ok
     enum ContractTypes {
         Invalid,
         KeysManager,
@@ -30,6 +35,7 @@ contract ProxyStorage is IProxyStorage {
         BallotsStorage 
     }
 
+    // BK Ok - Event, matches usage below
     event ProxyInitialized(
         address keysManager,
         address votingToChangeKeys,
@@ -44,16 +50,23 @@ contract ProxyStorage is IProxyStorage {
         _;
     }
 
+    // Constructor
     function ProxyStorage(address _poaConsensus, address _moc) public {
+        // BK Ok
         poaConsensus = _poaConsensus;
+        // BK Ok
         masterOfCeremony = _moc;
     }
 
+    // BK Ok - View function
     function getKeysManager() public view returns(address) {
+        // BK Ok
         return keysManager;
     }
 
+    // BK Ok - View function
     function getVotingToChangeKeys() public view returns(address) {
+        // BK Ok
         return votingToChangeKeys;
     }
 
@@ -64,7 +77,9 @@ contract ProxyStorage is IProxyStorage {
         return votingToChangeMinThreshold;
     }
 
+    // BK Ok - View function
     function getVotingToChangeProxy() public view returns(address) {
+        // BK Ok
         return votingToChangeProxy;
     }
 
@@ -75,7 +90,9 @@ contract ProxyStorage is IProxyStorage {
         return poaConsensus;
     }
 
+    // BK Ok - View function
     function getBallotsStorage() public view returns(address) {
+        // BK Ok
         return ballotsStorage;
     }
 
@@ -95,6 +112,7 @@ contract ProxyStorage is IProxyStorage {
         votingToChangeProxy = _votingToChangeProxy;
         ballotsStorage = _ballotsStorage;
         mocInitialized = true;
+        // BK Ok
         ProxyInitialized(
             keysManager,
             votingToChangeKeys,

@@ -63,11 +63,17 @@ contract KeysManager is IKeysManager {
 
     // BK Ok - Constructor
     function KeysManager(address _proxyStorage, address _poaConsensus, address _masterOfCeremony) public {
+        // BK Ok
         require(_proxyStorage != address(0) && _poaConsensus != address(0));
+        // BK Ok
         require(_proxyStorage != _poaConsensus);
+        // BK Ok
         require(_masterOfCeremony != address(0) && _masterOfCeremony != _poaConsensus);
+        // BK Ok
         masterOfCeremony = _masterOfCeremony;
+        // BK Ok
         proxyStorage = IProxyStorage(_proxyStorage);
+        // BK Ok
         poaNetworkConsensus = IPoaNetworkConsensus(_poaConsensus);
         validatorKeys[masterOfCeremony] = Keys({
             votingKey: address(0),
@@ -78,8 +84,11 @@ contract KeysManager is IKeysManager {
         });
     }
 
+    // BK - Only MoC can execute this function
     function initiateKeys(address _initialKey) public {
+        // BK Ok
         require(msg.sender == masterOfCeremony);
+        // BK Ok
         require(_initialKey != address(0));
         require(initialKeys[_initialKey] == uint8(InitialKeyState.Invalid));
         require(_initialKey != masterOfCeremony);
@@ -90,8 +99,11 @@ contract KeysManager is IKeysManager {
     }
 
     function createKeys(address _miningKey, address _votingKey, address _payoutKey) public onlyValidInitialKey {
+        // BK Ok
         require(_miningKey != address(0) && _votingKey != address(0) && _payoutKey != address(0));
+        // BK Ok
         require(_miningKey != _votingKey && _miningKey != _payoutKey && _votingKey != _payoutKey);
+        // BK Ok
         require(_miningKey != msg.sender && _votingKey != msg.sender && _payoutKey != msg.sender);
         validatorKeys[_miningKey] = Keys({
             votingKey: _votingKey,
@@ -112,11 +124,15 @@ contract KeysManager is IKeysManager {
         return now;
     }
 
+    // BK Ok - View function
     function getVotingToChangeKeys() public view returns(address) {
+        // BK Ok
         return proxyStorage.getVotingToChangeKeys();
     }
 
+    // BK Ok - View function
     function isMiningActive(address _key) public view returns(bool) {
+        // BK Ok
         return validatorKeys[_key].isMiningActive;
     }
 
@@ -125,7 +141,9 @@ contract KeysManager is IKeysManager {
         return validatorKeys[miningKey].isVotingActive;
     }
 
+    // BK Ok - View function
     function isPayoutActive(address _miningKey) public view returns(bool) {
+        // BK Ok
         return validatorKeys[_miningKey].isPayoutActive;
     }
 
@@ -137,15 +155,21 @@ contract KeysManager is IKeysManager {
         return validatorKeys[_miningKey].payoutKey;
     }
 
+    // BK Ok - View function
     function getMiningKeyHistory(address _miningKey) public view returns(address) {
+        // BK Ok
         return miningKeyHistory[_miningKey];
     }
 
+    // BK Ok - View function
     function getMiningKeyByVoting(address _miningKey) public view returns(address) {
+        // BK Ok
         return miningKeyByVoting[_miningKey];
     }
 
+    // BK Ok - View function
     function getInitialKey(address _initialKey) public view returns(uint8) {
+        // BK Ok
         return initialKeys[_initialKey];
     }
 

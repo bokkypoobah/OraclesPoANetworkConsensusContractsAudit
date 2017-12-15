@@ -134,7 +134,9 @@ contract VotingToChangeProxyAddress {
         return ballotsStorage.getProxyThreshold();
     }
 
+    // BK NOTE - return > 0 means the vote is accepted, this is an int
     function getProgress(uint256 _id) public view returns(int) {
+        // BK Ok
         return votingState[_id].progress;
     }
 
