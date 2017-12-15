@@ -85,10 +85,11 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
   * [x] contract BallotsStorage is IBallotsStorage
 * [ ] [code-review/KeysManager.md](code-review/KeysManager.md)
   * [ ] contract KeysManager is IKeysManager
-* [ ] [code-review/PoaNetworkConsensus.md](code-review/PoaNetworkConsensus.md)
-  * [ ] contract PoaNetworkConsensus is IPoaNetworkConsensus
-* [ ] [code-review/ProxyStorage.md](code-review/ProxyStorage.md)
-  * [ ] contract ProxyStorage is IProxyStorage
+* [x] [code-review/PoaNetworkConsensus.md](code-review/PoaNetworkConsensus.md)
+  * [x] contract PoaNetworkConsensus is IPoaNetworkConsensus
+    * [ ] TODO Check `pendingList` and `validatorsState` insertion and deletion
+* [x] [code-review/ProxyStorage.md](code-review/ProxyStorage.md)
+  * [x] contract ProxyStorage is IProxyStorage
 * [ ] [code-review/ValidatorMetadata.md](code-review/ValidatorMetadata.md)
   * [ ] contract ValidatorMetadata
 * [ ] [code-review/VotingToChangeKeys.md](code-review/VotingToChangeKeys.md)

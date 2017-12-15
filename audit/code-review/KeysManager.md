@@ -40,6 +40,7 @@ contract KeysManager is IKeysManager {
     mapping(address => address) public miningKeyByVoting;
     mapping(address => address) public miningKeyHistory;
 
+    // BK Next 5 Ok - Events
     event PayoutKeyChanged(address key, address indexed miningKey, string action);
     event VotingKeyChanged(address key, address indexed miningKey, string action);
     event MiningKeyChanged(address key, string action);

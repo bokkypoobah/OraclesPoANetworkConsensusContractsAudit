@@ -53,13 +53,18 @@ contract VotingToChangeKeys {
     mapping(uint256 => VotingData) public votingState;
     mapping(address => uint256) public validatorActiveBallots;
 
+    // BK Next 3 Ok - Events
     event Vote(uint256 indexed id, uint256 decision, address indexed voter, uint256 time );
     event BallotFinalized(uint256 indexed id, address indexed voter);
     event BallotCreated(uint256 indexed id, uint256 indexed ballotType, address indexed creator);
 
+    // BK Ok
     modifier onlyValidVotingKey(address _votingKey) {
+        // BK Ok
         IKeysManager keysManager = IKeysManager(getKeysManager());
+        // BK Ok
         require(keysManager.isVotingActive(_votingKey));
+        // BK Ok
         _;
     }
 
@@ -133,16 +138,21 @@ contract VotingToChangeKeys {
         BallotFinalized(_id, msg.sender);
     }
 
+    // BK Ok - View function
     function getBallotsStorage() public view returns(address) {
+        // BK Ok
         return proxyStorage.getBallotsStorage();
     }
 
+    // BK Ok - View function
     function getKeysManager() public view returns(address) {
+        // BK Ok
         return proxyStorage.getKeysManager();
     }
 
     function getBallotLimitPerValidator() public view returns(uint256) {
         IBallotsStorage ballotsStorage = IBallotsStorage(getBallotsStorage());
+        // BK Ok - This is 200/numberOfValidators
         return ballotsStorage.getBallotLimitPerValidator();
     }
 
@@ -163,20 +173,29 @@ contract VotingToChangeKeys {
         return votingState[_id].minThresholdOfVoters;
     }
 
+    // BK Ok - View function
     function getAffectedKeyType(uint256 _id) public view returns(uint256) {
+        // BK Ok
         return votingState[_id].affectedKeyType;
     }
 
+    // BK Ok - View function
     function getAffectedKey(uint256 _id) public view returns(address) {
+        // BK Ok
         return votingState[_id].affectedKey;
     }
 
+    // BK Ok - View function
     function getMiningKey(uint256 _id) public view returns(address) {
+        // BK Ok
         return votingState[_id].miningKey;
     }
 
+    // BK Ok - View function
     function getMiningByVotingKey(address _votingKey) public view returns(address) {
+        // BK Ok
         IKeysManager keysManager = IKeysManager(getKeysManager());
+        // BK Ok
         return keysManager.getMiningKeyByVoting(_votingKey);
     }
 
@@ -205,33 +224,51 @@ contract VotingToChangeKeys {
         return withinTime;
     }
 
+    // BK Ok - View function
     function hasAlreadyVoted(uint256 _id, address _votingKey) public view returns(bool) {
         VotingData storage ballot = votingState[_id];
         address miningKey = getMiningByVotingKey(_votingKey);
         return ballot.voters[miningKey];
     }
 
+    // BK Ok - View function
     function isValidVote(uint256 _id, address _votingKey) public view returns(bool) {
+        // BK Ok
         address miningKey = getMiningByVotingKey(_votingKey);
+        // BK Ok
         bool notVoted = !hasAlreadyVoted(_id, _votingKey);
+        // BK Ok
         bool oldKeysNotVoted = !areOldMiningKeysVoted(_id, miningKey);
+        // BK Ok
         return notVoted && isActive(_id) && oldKeysNotVoted;
     }
 
+    // BK Ok - View function
     function areOldMiningKeysVoted(uint256 _id, address _miningKey) public view returns(bool) {
+        // BK Ok
         IKeysManager keysManager = IKeysManager(getKeysManager());
+        // BK Ok
         VotingData storage ballot = votingState[_id];
+        // BK Ok
         for (uint8 i = 0; i < maxOldMiningKeysDeepCheck; i++) {
+            // BK Ok
             address oldMiningKey = keysManager.getMiningKeyHistory(_miningKey);
+            // BK Ok
             if (oldMiningKey == address(0)) {
+                // BK Ok
                 return false;
             }
+            // BK Ok
             if (ballot.voters[oldMiningKey]) {
+                // BK Ok
                 return true;
+            // BK Ok
             } else {
+                // BK Ok
                 _miningKey = oldMiningKey;
             }
         }
+        // BK Ok
         return false;
     }
 
@@ -309,8 +346,11 @@ contract VotingToChangeKeys {
         deactiveBallot(_id);
     }
 
+    // BK Ok - Private function only called by finalizeBallot
     function updateBallot(uint256 _id, uint8 _quorumState) private {
+        // BK Ok
         VotingData storage ballot = votingState[_id];
+        // BK Ok
         ballot.quorumState = _quorumState;
     }
 

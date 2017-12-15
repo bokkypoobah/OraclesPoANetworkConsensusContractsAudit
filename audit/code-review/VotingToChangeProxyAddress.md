@@ -153,19 +153,27 @@ contract VotingToChangeProxyAddress {
         return keysManager.getMiningKeyByVoting(_votingKey);
     }
     
+    // BK Ok - View function
     function getBallotsStorage() public view returns(address) {
+        // BK Ok
         return proxyStorage.getBallotsStorage();
     }
 
+    // BK Ok - View function
     function getKeysManager() public view returns(address) {
+        // BK Ok
         return proxyStorage.getKeysManager();
     }
 
+    // BK Ok - View function
     function getStartTime(uint256 _id) public view returns(uint256) {
+        // BK Ok
         return votingState[_id].startTime;
     }
 
+    // BK Ok - View function
     function getEndTime(uint256 _id) public view returns(uint256) {
+        // BK Ok
         return votingState[_id].endTime;
     }
 
@@ -173,12 +181,17 @@ contract VotingToChangeProxyAddress {
         return votingState[_id].isFinalized;
     }
 
+    // BK Ok - View function
     function getTime() public view returns(uint256) {
+        // BK Ok
         return now;
     }
 
+    // BK Ok - View function
     function isActive(uint256 _id) public view returns(bool) {
+        // BK Ok
         bool withinTime = getStartTime(_id) <= getTime() && getTime() <= getEndTime(_id);
+        // BK Ok
         return withinTime;
     }
 
@@ -212,8 +225,11 @@ contract VotingToChangeProxyAddress {
         return false;
     }
 
+    // BK Ok - View function
     function getBallotLimitPerValidator() public view returns(uint256) {
+        // BK Ok
         IBallotsStorage ballotsStorage = IBallotsStorage(getBallotsStorage());
+        // BK Ok - This is 200/numberOfValidators
         return ballotsStorage.getBallotLimitPerValidator();
     }
 

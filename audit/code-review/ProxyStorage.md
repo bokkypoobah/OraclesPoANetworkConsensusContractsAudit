@@ -43,10 +43,14 @@ contract ProxyStorage is IProxyStorage {
         address votingToChangeProxy,
         address ballotsStorage);
 
+    // BK Ok - Event
     event AddressSet(uint256 contractType, address contractAddress);
 
+    // BK Ok
     modifier onlyVotingToChangeProxy() {
+        // BK Ok
         require(msg.sender == votingToChangeProxy);
+        // BK Ok
         _;
     }
 
@@ -96,6 +100,7 @@ contract ProxyStorage is IProxyStorage {
         return ballotsStorage;
     }
 
+    // BK Ok - Only MoC can execute this function
     function initializeAddresses(
         address _keysManager,
         address _votingToChangeKeys,
@@ -104,15 +109,19 @@ contract ProxyStorage is IProxyStorage {
         address _ballotsStorage
     ) public 
     {
+        // BK Ok
         require(msg.sender == masterOfCeremony);
+        // BK Ok - This function can only be executed once
         require(!mocInitialized);
+        // BK Next 5 Ok
         keysManager = _keysManager;
         votingToChangeKeys = _votingToChangeKeys;
         votingToChangeMinThreshold = _votingToChangeMinThreshold;
         votingToChangeProxy = _votingToChangeProxy;
         ballotsStorage = _ballotsStorage;
-        mocInitialized = true;
         // BK Ok
+        mocInitialized = true;
+        // BK Ok - Log event
         ProxyInitialized(
             keysManager,
             votingToChangeKeys,
@@ -121,19 +130,32 @@ contract ProxyStorage is IProxyStorage {
             ballotsStorage);
     }
 
+    // BK Ok - Can only be called by VotingToChangeProxyAddress
     function setContractAddress(uint256 _contractType, address _contractAddress) public onlyVotingToChangeProxy {
+        // BK Ok
         require(_contractAddress != address(0));
+        // BK Ok
         if (_contractType == uint8(ContractTypes.KeysManager)) {
+            // BK Ok
             keysManager = _contractAddress;
+        // BK Ok
         } else if (_contractType == uint8(ContractTypes.VotingToChangeKeys)) {
+            // BK Ok
             votingToChangeKeys = _contractAddress;
+        // BK Ok
         } else if (_contractType == uint8(ContractTypes.VotingToChangeMinThreshold)) {
+            // BK Ok
             votingToChangeMinThreshold = _contractAddress;
+        // BK Ok
         } else if (_contractType == uint8(ContractTypes.VotingToChangeProxy)) {
+            // BK Ok
             votingToChangeProxy = _contractAddress;
+        // BK Ok
         } else if (_contractType == uint8(ContractTypes.BallotsStorage)) {
+            // BK Ok
             ballotsStorage = _contractAddress;
         }
+        // BK Ok - Log event
         AddressSet(_contractType, _contractAddress);
     }
 }

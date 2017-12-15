@@ -162,7 +162,9 @@ contract ValidatorMetadata {
         return keysManager.getMiningKeyByVoting(_votingKey);
     }
 
+    // BK Ok - View function
     function getTime() public view returns(uint256) {
+        // BK Ok
         return now;
     }
 
@@ -172,11 +174,15 @@ contract ValidatorMetadata {
         return ballotsStorage.getBallotThreshold(thresholdType);
     }
 
+    // BK Ok - View function
     function getBallotsStorage() public view returns(address) {
+        // BK Ok
         return proxyStorage.getBallotsStorage();
     }
 
+    // BK Ok - View function
     function getKeysManager() public view returns(address) {
+        // BK Ok
         return proxyStorage.getKeysManager();
     }
 
