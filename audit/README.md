@@ -54,8 +54,8 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 
 * [x] [code-review/interfaces/IBallotsStorage.md](code-review/interfaces/IBallotsStorage.md)
   * [x] interface IBallotsStorage
-* [ ] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
-  * [ ] contract IKeysManager
+* [x] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
+  * [x] contract IKeysManager
 * [ ] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
   * [ ] contract IPoaNetworkConsensus
 * [ ] [code-review/interfaces/IProxyStorage.md](code-review/interfaces/IProxyStorage.md)

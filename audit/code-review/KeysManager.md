@@ -10,6 +10,7 @@ Source file [../../contracts/KeysManager.sol](../../contracts/KeysManager.sol).
 // BK Ok
 pragma solidity ^0.4.18;
 
+// BK Next 3 Ok
 import "./interfaces/IPoaNetworkConsensus.sol";
 import "./interfaces/IKeysManager.sol";
 import "./interfaces/IProxyStorage.sol";
@@ -105,7 +106,9 @@ contract KeysManager is IKeysManager {
         ValidatorInitialized(_miningKey, _votingKey, _payoutKey);
     }
 
+    // BK Ok - View function
     function getTime() public view returns(uint256) {
+        // BK Ok
         return now;
     }
 
