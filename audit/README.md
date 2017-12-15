@@ -25,6 +25,20 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 * [Summary](#summary)
 * [Testing](#testing)
 * [Code Review](#code-review)
+* [Example To Demonstrate The Shadowing Of Variables](#example-to-demonstrate-the-shadowing-of-variables)
+
+<br />
+
+<hr />
+
+## Recommendations
+
+* **MEDIUM IMPORTANCE** The following variables are duplicated in *IPoaNetworkConsensus* and *PoaNetworkConsensus*:
+  `finalized`, `systemAddress`, `currentValidators`, `pendingList`, `currentValidatorsLength`. This can lead to strange
+  results if functions in *IPoaNetworkConsensus* access it's version of these variables, which is not the case. See
+  [Example To Demonstrate The Shadowing Of Variables](#example-to-demonstrate-the-shadowing-of-variables) for an
+  example where a function in the base class access the base class variable. Only `currentValidatorsLength` is read
+  from the `IPoaNetworkConsensus`, but is written to in *KeysManager* and *BallotsStorage*
 
 <br />
 
@@ -56,8 +70,8 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
   * [x] interface IBallotsStorage
 * [x] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
   * [x] contract IKeysManager
-* [ ] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
-  * [ ] contract IPoaNetworkConsensus
+* [x] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
+  * [x] contract IPoaNetworkConsensus
 * [ ] [code-review/interfaces/IProxyStorage.md](code-review/interfaces/IProxyStorage.md)
   * [ ] interface IProxyStorage
 
@@ -87,3 +101,51 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 Not tested as this is a test component:
 
 * [ ] [../contracts/Migrations.sol](../contracts/Migrations.sol)
+
+<br />
+
+## Example To Demonstrate The Shadowing Of Variables
+
+Load the following code in [remix.ethereum.org](http://remix.ethereum.org), deploy *Derived*, click `increment()` then
+click `decrement()`. Click on the getter functions `baseTotalSupply()` and `derivedTotalSupply()` to get the results
+in the screen below:
+
+```javascript
+pragma solidity ^0.4.18;
+
+contract Base {
+    uint totalSupply;
+    
+    function decrement() public {
+        totalSupply--;
+    }
+    
+    function baseTotalSupply() public view returns (uint) {
+        return totalSupply;
+    }
+}
+
+contract Derived is Base {
+    uint totalSupply;
+    
+    function increment() public {
+        totalSupply++;
+    }
+    
+    function derivedTotalSupply() public view returns (uint) {
+        return totalSupply;
+    }
+}
+```
+
+![](ShadowExample.png)
+
+<br />
+
+A real-life example can be found by viewing the `totalSupply` for the *RareToken* at
+[0x584AA8297eDfCB7d8853a426bb0f5252C4aF9437](https://etherscan.io/token/0x584AA8297eDfCB7d8853a426bb0f5252C4aF9437).
+
+The contract code at this address does not have it's source attached, but you can see `totalSupply` is defined
+in [token](https://github.com/bokkypoobah/RAREPeperiumToken/blob/master/contracts/RARE_original.sol#L27) and
+`totalSupply` is also defined in
+[RareToken](https://github.com/bokkypoobah/RAREPeperiumToken/blob/master/contracts/RARE_original.sol#L99).

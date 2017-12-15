@@ -10,6 +10,7 @@ Source file [../../contracts/PoaNetworkConsensus.sol](../../contracts/PoaNetwork
 // BK Ok
 pragma solidity ^0.4.18;
 
+// BK Next 2 Ok
 import "./interfaces/IPoaNetworkConsensus.sol";
 import "./interfaces/IProxyStorage.sol";
 
@@ -37,6 +38,7 @@ contract PoaNetworkConsensus is IPoaNetworkConsensus {
         uint256 index;
     }
 
+	// BK NOTE - The following variable shadows the equivalent in IPoaNetworkConsensus
     bool public finalized = false;
     bool public isMasterOfCeremonyInitialized = false;
     address public masterOfCeremony;

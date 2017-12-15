@@ -7,10 +7,14 @@ Source file [../../../contracts/interfaces/IPoaNetworkConsensus.sol](../../../co
 <hr />
 
 ```javascript
+// BK Ok
 pragma solidity ^0.4.18;
 
 
+// BK Ok
 contract IPoaNetworkConsensus {
+    // BK NOTE - The next block of variables are also duplicated in PoaNetworkConsensus
+    // BK Next 5 OK
     bool public finalized = false;
     address public systemAddress;
     address[] public currentValidators;
