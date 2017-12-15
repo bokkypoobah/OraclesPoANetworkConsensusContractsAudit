@@ -70,19 +70,19 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 
 * [x] [code-review/interfaces/IBallotsStorage.md](code-review/interfaces/IBallotsStorage.md)
   * [x] interface IBallotsStorage
-* [ ] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
-  * [ ] interface IKeysManager
-* [ ] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
-  * [ ] interface IPoaNetworkConsensus
-* [ ] [code-review/interfaces/IProxyStorage.md](code-review/interfaces/IProxyStorage.md)
-  * [ ] interface IProxyStorage
+* [x] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
+  * [x] interface IKeysManager
+* [x] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
+  * [x] interface IPoaNetworkConsensus
+* [x] [code-review/interfaces/IProxyStorage.md](code-review/interfaces/IProxyStorage.md)
+  * [x] interface IProxyStorage
 
 ### contracts
 
 * [x] [code-review/SafeMath.md](code-review/SafeMath.md)
   * [x] library SafeMath
-* [ ] [code-review/BallotsStorage.md](code-review/BallotsStorage.md)
-  * [ ] contract BallotsStorage is IBallotsStorage
+* [x] [code-review/BallotsStorage.md](code-review/BallotsStorage.md)
+  * [x] contract BallotsStorage is IBallotsStorage
 * [ ] [code-review/KeysManager.md](code-review/KeysManager.md)
   * [ ] contract KeysManager is IKeysManager
 * [ ] [code-review/PoaNetworkConsensus.md](code-review/PoaNetworkConsensus.md)

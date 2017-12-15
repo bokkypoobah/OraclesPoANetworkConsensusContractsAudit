@@ -10,6 +10,7 @@ Source file [../../../contracts/interfaces/IBallotsStorage.sol](../../../contrac
 pragma solidity ^0.4.18;
 
 
+// BK Ok
 interface IBallotsStorage {
     // BK Ok - Matches implementation
     function setThreshold(uint256, uint8) public;

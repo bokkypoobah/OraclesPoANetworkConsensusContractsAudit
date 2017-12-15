@@ -30,8 +30,11 @@ contract BallotsStorage is IBallotsStorage {
     IProxyStorage public proxyStorage;
     mapping(uint8 => uint256) ballotThresholds;
 
+    // BK Ok
     modifier onlyVotingToChangeThreshold() {
+        // BK Ok
         require(msg.sender == getVotingToChangeThreshold());
+        // BK Ok
         _;
     }
 
@@ -39,6 +42,7 @@ contract BallotsStorage is IBallotsStorage {
     function BallotsStorage(address _proxyStorage) public {
         // BK Ok
         proxyStorage = IProxyStorage(_proxyStorage);
+        // BK Next 2 Ok
         ballotThresholds[uint8(ThresholdTypes.Keys)] = 3;
         ballotThresholds[uint8(ThresholdTypes.MetadataChange)] = 2;
     }
@@ -78,15 +82,22 @@ contract BallotsStorage is IBallotsStorage {
         return poa.getCurrentValidatorsLength();
     }
 
+    // BK Ok - View function
     function getProxyThreshold() public view returns(uint256) {
+        // BK Ok
         return getTotalNumberOfValidators().div(2).add(1);
     }
 
+    // BK Ok - View function
     function getBallotLimitPerValidator() public view returns(uint256) {
+        // BK Ok = 200/numberOfValidators
         return getMaxLimitBallot().div(getTotalNumberOfValidators());
     }
     
+    // BK NOTE - This is only used in the getBallotLimitPerValidator() function
+    // BK Ok - View function
     function getMaxLimitBallot() public view returns(uint256) {
+        // BK Ok
         return 200;
     }
 }

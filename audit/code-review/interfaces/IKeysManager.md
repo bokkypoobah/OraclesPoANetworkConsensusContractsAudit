@@ -46,8 +46,11 @@ interface IKeysManager {
     function swapPayoutKey(address, address) public;
     // BK Ok - Same as implementation
     function getTime() public view returns(uint256);
+    // BK Ok - Same as implementation
     function getMiningKeyHistory(address) public view returns(address);
+    // BK Ok - Same as implementation
     function getMiningKeyByVoting(address) public view returns(address);
+    // BK Ok - Same as implementation
     function getInitialKey(address) public view returns(uint8);
 }
 ```
