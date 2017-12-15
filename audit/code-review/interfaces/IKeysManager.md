@@ -10,16 +10,7 @@ Source file [../../../contracts/interfaces/IKeysManager.sol](../../../contracts/
 pragma solidity ^0.4.18;
 
 
-contract IKeysManager {
-    address public masterOfCeremony;
-    address public poaNetworkConsensus;
-    uint256 public maxNumberOfInitialKeys;
-    uint256 public initialKeysCount;
-    uint256 public maxLimitValidators;
-    mapping(address => uint8) public initialKeys;
-    mapping(address => address) public getMiningKeyByVoting;
-    mapping(address => address) public miningKeyHistory;
-
+interface IKeysManager {
     // BK Ok - Same as implementation
     function initiateKeys(address) public;
     // BK Ok - Same as implementation
@@ -55,5 +46,8 @@ contract IKeysManager {
     function swapPayoutKey(address, address) public;
     // BK Ok - Same as implementation
     function getTime() public view returns(uint256);
+    function getMiningKeyHistory(address) public view returns(address);
+    function getMiningKeyByVoting(address) public view returns(address);
+    function getInitialKey(address) public view returns(uint8);
 }
 ```

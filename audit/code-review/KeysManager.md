@@ -37,7 +37,7 @@ contract KeysManager is IKeysManager {
     uint256 public maxLimitValidators = 2000;
     mapping(address => uint8) public initialKeys;
     mapping(address => Keys) public validatorKeys;
-    mapping(address => address) public getMiningKeyByVoting;
+    mapping(address => address) public miningKeyByVoting;
     mapping(address => address) public miningKeyHistory;
 
     event PayoutKeyChanged(address key, address indexed miningKey, string action);
@@ -57,7 +57,7 @@ contract KeysManager is IKeysManager {
     }
 
     modifier withinTotalLimit() {
-        require(poaNetworkConsensus.currentValidatorsLength() <= maxLimitValidators);
+        require(poaNetworkConsensus.getCurrentValidatorsLength() <= maxLimitValidators);
         _;
     }
 
@@ -100,7 +100,7 @@ contract KeysManager is IKeysManager {
             isVotingActive: true,
             isPayoutActive: true
         });
-        getMiningKeyByVoting[_votingKey] = _miningKey;
+        miningKeyByVoting[_votingKey] = _miningKey;
         initialKeys[msg.sender] = uint8(InitialKeyState.Deactivated);
         poaNetworkConsensus.addValidator(_miningKey);
         ValidatorInitialized(_miningKey, _votingKey, _payoutKey);
@@ -121,7 +121,7 @@ contract KeysManager is IKeysManager {
     }
 
     function isVotingActive(address _votingKey) public view returns(bool) {
-        address miningKey = getMiningKeyByVoting[_votingKey];
+        address miningKey = miningKeyByVoting[_votingKey];
         return validatorKeys[miningKey].isVotingActive;
     }
 
@@ -135,6 +135,18 @@ contract KeysManager is IKeysManager {
 
     function getPayoutByMining(address _miningKey) public view returns(address) {
         return validatorKeys[_miningKey].payoutKey;
+    }
+
+    function getMiningKeyHistory(address _miningKey) public view returns(address) {
+        return miningKeyHistory[_miningKey];
+    }
+
+    function getMiningKeyByVoting(address _miningKey) public view returns(address) {
+        return miningKeyByVoting[_miningKey];
+    }
+
+    function getInitialKey(address _initialKey) public view returns(uint8) {
+        return initialKeys[_initialKey];
     }
 
     function addMiningKey(address _key) public onlyVotingToChangeKeys withinTotalLimit {
@@ -205,7 +217,7 @@ contract KeysManager is IKeysManager {
         } else {
             validator.votingKey = _key;
             validator.isVotingActive = true;
-            getMiningKeyByVoting[_key] = _miningKey;
+            miningKeyByVoting[_key] = _miningKey;
             VotingKeyChanged(_key, _miningKey, "added");
         }
     }
@@ -225,7 +237,7 @@ contract KeysManager is IKeysManager {
     function _removeMiningKey(address _key) private {
         require(validatorKeys[_key].isMiningActive);
         Keys memory keys = validatorKeys[_key];
-        getMiningKeyByVoting[keys.votingKey] = address(0);
+        miningKeyByVoting[keys.votingKey] = address(0);
         validatorKeys[_key] = Keys({
             votingKey: address(0),
             payoutKey: address(0),
@@ -243,7 +255,7 @@ contract KeysManager is IKeysManager {
         address oldVoting = validator.votingKey;
         validator.votingKey = address(0);
         validator.isVotingActive = false;
-        getMiningKeyByVoting[oldVoting] = address(0);
+        miningKeyByVoting[oldVoting] = address(0);
         VotingKeyChanged(oldVoting, _miningKey, "removed");
     }
 

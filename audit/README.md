@@ -11,8 +11,9 @@ Bok Consulting Pty Ltd was commissioned to perform an audit on the Oracles Netwo
 This audit has been conducted on Oracles Network's source code in commits
 [f706e4f](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/f706e4fa8d846b03c5f935e22696cc373d28afea),
 [9625b09](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/9625b09e3f8af8dd4e30fade6b3ca653f5781f49),
-[cec573c](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/cec573cf93480355510c299b5d1b0fd39b5578d3) and
-[fd8f215](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/fd8f2154b02c132e38ea07e95254f31f7511ca0a).
+[cec573c](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/cec573cf93480355510c299b5d1b0fd39b5578d3),
+[fd8f215](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/fd8f2154b02c132e38ea07e95254f31f7511ca0a) and
+[8aea8f5](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/8aea8f53327924618241f933c10a1b12e20a7815).
 
 TODO: Check that no potential vulnerabilities have been identified in the presale contract.
 
@@ -39,6 +40,7 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
   [Example To Demonstrate The Shadowing Of Variables](#example-to-demonstrate-the-shadowing-of-variables) for an
   example where a function in the base class access the base class variable. Only `currentValidatorsLength` is read
   from the `IPoaNetworkConsensus`, but is written to in *KeysManager* and *BallotsStorage*
+  * [x] Fixed in [8aea8f5](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/8aea8f53327924618241f933c10a1b12e20a7815)
 
 <br />
 
@@ -68,10 +70,10 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 
 * [x] [code-review/interfaces/IBallotsStorage.md](code-review/interfaces/IBallotsStorage.md)
   * [x] interface IBallotsStorage
-* [x] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
-  * [x] contract IKeysManager
-* [x] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
-  * [x] contract IPoaNetworkConsensus
+* [ ] [code-review/interfaces/IKeysManager.md](code-review/interfaces/IKeysManager.md)
+  * [ ] interface IKeysManager
+* [ ] [code-review/interfaces/IPoaNetworkConsensus.md](code-review/interfaces/IPoaNetworkConsensus.md)
+  * [ ] interface IPoaNetworkConsensus
 * [ ] [code-review/interfaces/IProxyStorage.md](code-review/interfaces/IProxyStorage.md)
   * [ ] interface IProxyStorage
 

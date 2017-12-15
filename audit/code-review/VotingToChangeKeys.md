@@ -107,7 +107,7 @@ contract VotingToChangeKeys {
     }
 
     function vote(uint256 _id, uint8 _choice) public onlyValidVotingKey(msg.sender) {
-
+        
         VotingData storage ballot = votingState[_id];
         // // check for validation;
         address miningKey = getMiningByVotingKey(msg.sender);
@@ -123,7 +123,6 @@ contract VotingToChangeKeys {
         ballot.voters[miningKey] = true;
         Vote(_id, _choice, msg.sender, getTime());
     }
-
     function finalize(uint256 _id) public onlyValidVotingKey(msg.sender) {
         require(!isActive(_id));
         require(!getIsFinalized(_id));
@@ -223,7 +222,7 @@ contract VotingToChangeKeys {
         IKeysManager keysManager = IKeysManager(getKeysManager());
         VotingData storage ballot = votingState[_id];
         for (uint8 i = 0; i < maxOldMiningKeysDeepCheck; i++) {
-            address oldMiningKey = keysManager.miningKeyHistory(_miningKey);
+            address oldMiningKey = keysManager.getMiningKeyHistory(_miningKey);
             if (oldMiningKey == address(0)) {
                 return false;
             }
@@ -239,7 +238,7 @@ contract VotingToChangeKeys {
     function checkIfMiningExisted(address _currentKey, address _affectedKey) public view returns(bool) {
         IKeysManager keysManager = IKeysManager(getKeysManager());
         for (uint8 i = 0; i < maxOldMiningKeysDeepCheck; i++) {
-            address oldMiningKey = keysManager.miningKeyHistory(_currentKey);
+            address oldMiningKey = keysManager.getMiningKeyHistory(_currentKey);
             if (oldMiningKey == address(0)) {
                 return false;
             }
@@ -384,5 +383,4 @@ contract VotingToChangeKeys {
         validatorActiveBallots[miningKey] = validatorActiveBallots[miningKey].sub(1);
     }
 }
-
 ```
