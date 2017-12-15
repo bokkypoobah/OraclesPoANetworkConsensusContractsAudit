@@ -21,7 +21,11 @@ contract BallotsStorage is IBallotsStorage {
     // BK Ok
     using SafeMath for uint256;
 
+    // BK NOTE - 1 Invalid
+    // BK NOTE - 2 Keys
+    // BK NOTE - 3 MetadataChange
     enum ThresholdTypes {Invalid, Keys, MetadataChange}
+    event ThresholdChanged(uint8 indexed thresholdType, uint256 newValue);
     IProxyStorage public proxyStorage;
     mapping(uint8 => uint256) ballotThresholds;
 
@@ -38,21 +42,34 @@ contract BallotsStorage is IBallotsStorage {
         ballotThresholds[uint8(ThresholdTypes.MetadataChange)] = 2;
     }
 
+    // BK NOTE - Called by VotingToChangeMinTheshold.finalizeBallot()
+    // BK Ok
     function setThreshold(uint256 _newValue, uint8 _thresholdType) public onlyVotingToChangeThreshold {
+        // BK NOTE - 1..3
+        // BK Next 2 Ok
         require(_thresholdType > 0);
         require(_thresholdType <= uint8(ThresholdTypes.MetadataChange));
+        // BK Ok - Check not the same as the existing value
         require(_newValue > 0 && _newValue != ballotThresholds[_thresholdType]);
+        // BK Ok - Assignment
         ballotThresholds[_thresholdType] = _newValue;
+        // BK Ok - Log event
+        ThresholdChanged(_thresholdType, _newValue);
     }
 
+    // BK Ok - View function
     function getBallotThreshold(uint8 _ballotType) public view returns(uint256) {
+        // BK Ok
         return ballotThresholds[_ballotType];
     }
 
+    // BK Ok - View function
     function getVotingToChangeThreshold() public view returns(address) {
+        // BK Ok
         return proxyStorage.getVotingToChangeMinThreshold();
     }
 
+    // BK Ok - View function
     function getTotalNumberOfValidators() public view returns(uint256) {
         IPoaNetworkConsensus poa = IPoaNetworkConsensus(proxyStorage.getPoaConsensus());
         return poa.currentValidatorsLength();
