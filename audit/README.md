@@ -27,6 +27,7 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 * [Testing](#testing)
 * [Code Review](#code-review)
 * [Example To Demonstrate The Shadowing Of Variables](#example-to-demonstrate-the-shadowing-of-variables)
+* [Code To Test The PoaNetworkConsensus PendingList Operations](#code-to-test-the-poanetworkconsensus-pendingList-operations)
 
 <br />
 
@@ -41,6 +42,9 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
   example where a function in the base class access the base class variable. Only `currentValidatorsLength` is read
   from the `IPoaNetworkConsensus`, but is written to in *KeysManager* and *BallotsStorage*
   * [x] Fixed in [8aea8f5](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/8aea8f53327924618241f933c10a1b12e20a7815)
+* **LOW IMPORTANCE** There is an off-by-one error in *KeysManager* as the check to restrict the number of keys to `maxLimitValidators = 2000`
+  is performed before the addition of a new key in `addMiningKey(...)`
+  * [x] Developer acknowledged, and 2001 keys is acceptable
 
 <br />
 
@@ -83,21 +87,21 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
   * [x] library SafeMath
 * [x] [code-review/BallotsStorage.md](code-review/BallotsStorage.md)
   * [x] contract BallotsStorage is IBallotsStorage
-* [ ] [code-review/KeysManager.md](code-review/KeysManager.md)
-  * [ ] contract KeysManager is IKeysManager
+* [x] [code-review/KeysManager.md](code-review/KeysManager.md)
+  * [x] contract KeysManager is IKeysManager
 * [x] [code-review/PoaNetworkConsensus.md](code-review/PoaNetworkConsensus.md)
   * [x] contract PoaNetworkConsensus is IPoaNetworkConsensus
-    * [ ] TODO Check `pendingList` and `validatorsState` insertion and deletion
+    * [x] Check `pendingList` and `validatorsState` insertion and deletion - See [Code To Test The PoaNetworkConsensus PendingList Operations](#code-to-test-the-poanetworkconsensus-pendingList-operations)
 * [x] [code-review/ProxyStorage.md](code-review/ProxyStorage.md)
   * [x] contract ProxyStorage is IProxyStorage
-* [ ] [code-review/ValidatorMetadata.md](code-review/ValidatorMetadata.md)
-  * [ ] contract ValidatorMetadata
-* [ ] [code-review/VotingToChangeKeys.md](code-review/VotingToChangeKeys.md)
-  * [ ] contract VotingToChangeKeys 
-* [ ] [code-review/VotingToChangeMinThreshold.md](code-review/VotingToChangeMinThreshold.md)
-  * [ ] contract VotingToChangeMinThreshold 
-* [ ] [code-review/VotingToChangeProxyAddress.md](code-review/VotingToChangeProxyAddress.md)
-  * [ ] contract VotingToChangeProxyAddress 
+* [x] [code-review/ValidatorMetadata.md](code-review/ValidatorMetadata.md)
+  * [x] contract ValidatorMetadata
+* [x] [code-review/VotingToChangeKeys.md](code-review/VotingToChangeKeys.md)
+  * [x] contract VotingToChangeKeys 
+* [x] [code-review/VotingToChangeMinThreshold.md](code-review/VotingToChangeMinThreshold.md)
+  * [x] contract VotingToChangeMinThreshold 
+* [x] [code-review/VotingToChangeProxyAddress.md](code-review/VotingToChangeProxyAddress.md)
+  * [x] contract VotingToChangeProxyAddress 
 
 <br />
 
@@ -106,6 +110,8 @@ Not tested as this is a test component:
 * [ ] [../contracts/Migrations.sol](../contracts/Migrations.sol)
 
 <br />
+
+<hr />
 
 ## Example To Demonstrate The Shadowing Of Variables
 
@@ -152,3 +158,88 @@ The contract code at this address does not have it's source attached, but you ca
 in [token](https://github.com/bokkypoobah/RAREPeperiumToken/blob/master/contracts/RARE_original.sol#L27) and
 `totalSupply` is also defined in
 [RareToken](https://github.com/bokkypoobah/RAREPeperiumToken/blob/master/contracts/RARE_original.sol#L99).
+
+<br />
+
+<hr />
+
+## Code To Test The PoaNetworkConsensus PendingList Operations
+
+Load the following code in [remix.ethereum.org](http://remix.ethereum.org), deploy *Derived*. Click `addValidator* and
+*removeValidator* and check using *getPendingList* at each step:
+
+```javascript
+pragma solidity ^0.4.18;
+
+contract TestPoaNetworkConsensusPendingList {
+    event InitiateChange(bytes32 indexed parentHash, address[] newSet);
+    event ChangeFinalized(address[] newSet);
+    event ChangeReference(string nameOfContract, address newAddress);
+    event MoCInitializedProxyStorage(address proxyStorage);
+    
+    struct ValidatorState {
+        // Is this a validator.
+        bool isValidator;
+        // Index in the pendingList.
+        uint256 index;
+    }
+
+    address[] public pendingList;
+    mapping(address => ValidatorState) public validatorsState;
+
+    modifier isNewValidator(address _someone) {
+        require(!validatorsState[_someone].isValidator);
+        _;
+    }
+
+    modifier isNotNewValidator(address _someone) {
+        require(validatorsState[_someone].isValidator);
+        _;
+    }
+
+    function TestPoaNetworkConsensusPendingList() public {
+        pendingList = [msg.sender];
+        for (uint256 i = 0; i < pendingList.length; i++) {
+            validatorsState[pendingList[i]] = ValidatorState({
+                isValidator: true,
+                index: i
+            });
+        }
+    }
+
+    function getPendingList() public view returns(address[]) {
+        return pendingList;
+    }
+
+    function addValidator(address _validator) public isNewValidator(_validator) {
+        require(_validator != address(0));
+        validatorsState[_validator] = ValidatorState({
+            isValidator: true,
+            index: pendingList.length
+        });
+        pendingList.push(_validator);
+        InitiateChange(block.blockhash(block.number - 1), pendingList);
+    }
+
+    function removeValidator(address _validator) public isNotNewValidator(_validator) {
+        uint256 removedIndex = validatorsState[_validator].index;
+        // Can not remove the last validator.
+        uint256 lastIndex = pendingList.length - 1;
+        address lastValidator = pendingList[lastIndex];
+        // Override the removed validator with the last one.
+        pendingList[removedIndex] = lastValidator;
+        // Update the index of the last validator.
+        validatorsState[lastValidator].index = removedIndex;
+        delete pendingList[lastIndex];
+        require(pendingList.length > 0);
+        pendingList.length--;
+        validatorsState[_validator].index = 0;
+        validatorsState[_validator].isValidator = false;
+        InitiateChange(block.blockhash(block.number - 1), pendingList);
+    }
+
+    function isValidator(address _someone) public view returns(bool) {
+        return validatorsState[_someone].isValidator;
+    }
+}
+```
