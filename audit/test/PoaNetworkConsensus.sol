@@ -30,7 +30,7 @@ contract PoaNetworkConsensus is IPoaNetworkConsensus {
     bool public finalized = false;
     bool public isMasterOfCeremonyInitialized = false;
     address public masterOfCeremony;
-    address public systemAddress = 0xfffffffffffffffffffffffffffffffffffffffe;
+    address public systemAddress = 0xa11AAE29840fBb5c86E6fd4cF809EBA183AEf433;
     address[] public currentValidators;
     address[] public pendingList;
     uint256 public currentValidatorsLength;

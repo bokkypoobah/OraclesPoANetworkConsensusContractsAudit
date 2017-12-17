@@ -1,7 +1,5 @@
 # Oracles Network PoA Network Consensus Contracts Audit
 
-Status: Work in progress (Aiming for < 15/12/2017)
-
 ## Summary
 
 [Oracles Network](https://oracles.org/) completed it's presale in Dec 2017.
@@ -15,7 +13,7 @@ This audit has been conducted on Oracles Network's source code in commits
 [fd8f215](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/fd8f2154b02c132e38ea07e95254f31f7511ca0a) and
 [8aea8f5](https://github.com/oraclesorg/poa-network-consensus-contracts/commit/8aea8f53327924618241f933c10a1b12e20a7815).
 
-TODO: Check that no potential vulnerabilities have been identified in the presale contract.
+No potential vulnerabilities have been identified in the consensus contracts.
 
 <br />
 
@@ -24,6 +22,10 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 ## Table Of Contents
 
 * [Summary](#summary)
+* [Recommendations](#recommendations)
+* [Potential Vulnerabilities](#potential-vulnerabilities)
+* [Scope](#scope)
+* [Limitations](#limitations)
 * [Testing](#testing)
 * [Code Review](#code-review)
 * [Example To Demonstrate The Shadowing Of Variables](#example-to-demonstrate-the-shadowing-of-variables)
@@ -50,7 +52,38 @@ TODO: Check that no potential vulnerabilities have been identified in the presal
 
 <hr />
 
+## Potential Vulnerabilities
+
+No potential vulnerabilities have been identified in the consensus contracts.
+
+<br />
+
+<hr />
+
+## Scope
+
+This audit is into the technical aspects of the consensus contracts. This audit does not guarantee that that the code is
+bugfree, but intends to highlight any areas of weaknesses.
+
+<br />
+
+<hr />
+
+## Limitations
+
+This audit makes no statements or warranties about the viability of the Oracles Network's business proposition, the individuals
+involved in this business or the regulatory regime for the business model.
+
+<br />
+
+<hr />
+
 ## Testing
+
+Details of the testing environment can be found in [test](test).
+
+The following functions were tested using the script [test/01_test1.sh](test/01_test1.sh) with the summary results saved
+in [test/test1results.txt](test/test1results.txt) and the detailed output saved in [test/test1output.txt](test/test1output.txt):
 
 * Setting up contracts
   * Deploy `PoaNetworkConsensus(mocWallet)`
@@ -243,3 +276,9 @@ contract TestPoaNetworkConsensusPendingList {
     }
 }
 ```
+
+<br />
+
+<br />
+
+(c) BokkyPooBah / Bok Consulting Pty Ltd for Oracles Network - Dec 18 2017. The MIT Licence.

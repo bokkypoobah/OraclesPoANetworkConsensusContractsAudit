@@ -76,6 +76,7 @@ printf "END_DATE                      = '$END_DATE' '$END_DATE_S'\n" | tee -a $T
 `cp -rp $SOURCEDIR/* .`
 
 # --- Modify parameters ---
+`perl -pi -e "s/systemAddress \= 0xfffffffffffffffffffffffffffffffffffffffe;/systemAddress \= 0xa11AAE29840fBb5c86E6fd4cF809EBA183AEf433;/" $POANETWORKCONSENSUSSOL`
 `perl -pi -e "s/address poaConsensus;/address public poaConsensus;/" $PROXYSTORAGESOL`
 `perl -pi -e "s/address keysManager;/address public keysManager;/" $PROXYSTORAGESOL`
 `perl -pi -e "s/address votingToChangeKeys;/address public votingToChangeKeys;/" $PROXYSTORAGESOL`
@@ -85,6 +86,10 @@ printf "END_DATE                      = '$END_DATE' '$END_DATE_S'\n" | tee -a $T
 `perl -pi -e "s/uint8 thresholdForKeysType \= 1;/uint8 public thresholdForKeysType \= 1;/" $VOTINGTOCHANGEKEYSSOL`
 `perl -pi -e "s/uint8 thresholdForKeysType \= 1;/uint8 public thresholdForKeysType \= 1;/" $VOTINGTOCHANGEMINTHRESHOLDSOL`
 # `perl -pi -e "s/uint8 thresholdForKeysType \= 1;/uint8 public thresholdForKeysType \= 1;/" $VOTINGTOCHANGEPROXYADDRESSSOL`
+
+DIFFS1=`diff $SOURCEDIR/$POANETWORKCONSENSUSSOL $POANETWORKCONSENSUSSOL`
+echo "--- Differences $SOURCEDIR/$POANETWORKCONSENSUSSOL $POANETWORKCONSENSUSSOL ---" | tee -a $TEST1OUTPUT
+echo "$DIFFS1" | tee -a $TEST1OUTPUT
 
 DIFFS1=`diff $SOURCEDIR/$PROXYSTORAGESOL $PROXYSTORAGESOL`
 echo "--- Differences $SOURCEDIR/$PROXYSTORAGESOL $PROXYSTORAGESOL ---" | tee -a $TEST1OUTPUT
@@ -407,474 +412,61 @@ printProxyStorageContractDetails();
 console.log("RESULT: ");
 
 
-exit;
-
-
 // -----------------------------------------------------------------------------
-var deployTokenFactoryMessage = "Deploy BTTSTokenFactory";
+var initiateKeys_Message = "Initiate Keys";
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + deployTokenFactoryMessage);
-// console.log("RESULT: tokenFactoryBin='" + tokenFactoryBin + "'");
-var newTokenFactoryBin = tokenFactoryBin.replace(/__BTTSTokenFactory\.sol\:BTTSLib__________/g, tokenFactoryLibBTTSAddress.substring(2, 42));
-// console.log("RESULT: newTokenFactoryBin='" + newTokenFactoryBin + "'");
-var tokenFactoryContract = web3.eth.contract(tokenFactoryAbi);
-// console.log(JSON.stringify(tokenFactoryAbi));
-// console.log(tokenFactoryBin);
-var tokenFactoryTx = null;
-var tokenFactoryAddress = null;
-var tokenFactory = tokenFactoryContract.new({from: contractOwnerAccount, data: newTokenFactoryBin, gas: 6000000, gasPrice: defaultGasPrice},
-  function(e, contract) {
-    if (!e) {
-      if (!contract.address) {
-        tokenFactoryTx = contract.transactionHash;
-      } else {
-        tokenFactoryAddress = contract.address;
-        addAccount(tokenFactoryAddress, "BTTSTokenFactory");
-        addTokenFactoryContractAddressAndAbi(tokenFactoryAddress, tokenFactoryAbi);
-        console.log("DATA: tokenFactoryAddress=" + tokenFactoryAddress);
-      }
-    }
-  }
-);
+console.log("RESULT: " + initiateKeys_Message);
+var initiateKeys_1Tx = km.initiateKeys(initial1, {from: moc, gas: 200000, gasPrice: defaultGasPrice});
+var initiateKeys_2Tx = km.initiateKeys(initial2, {from: moc, gas: 200000, gasPrice: defaultGasPrice});
+var initiateKeys_3Tx = km.initiateKeys(initial3, {from: moc, gas: 200000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(tokenFactoryTx, deployTokenFactoryMessage);
-printTxData("tokenFactoryTx", tokenFactoryTx);
-printTokenFactoryContractDetails();
+failIfTxStatusError(initiateKeys_1Tx, initiateKeys_Message + " - km.initiateKeys(initial1)");
+failIfTxStatusError(initiateKeys_2Tx, initiateKeys_Message + " - km.initiateKeys(initial2)");
+failIfTxStatusError(initiateKeys_3Tx, initiateKeys_Message + " - km.initiateKeys(initial3)");
+printTxData("initiateKeys_1Tx", initiateKeys_1Tx);
+printTxData("initiateKeys_1Tx", initiateKeys_2Tx);
+printTxData("initiateKeys_1Tx", initiateKeys_3Tx);
+printKeysManagerContractDetails();
 console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var tokenMessage = "Deploy Token Contract";
-var symbol = "GZE";
-var name = "GazeCoin";
-var decimals = 18;
-var initialSupply = 0;
-var mintable = true;
-var transferable = false;
+var createKeys_Message = "Create Keys";
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + tokenMessage);
-var tokenContract = web3.eth.contract(tokenAbi);
-// console.log(JSON.stringify(tokenContract));
-var deployTokenTx = tokenFactory.deployBTTSTokenContract(symbol, name, decimals, initialSupply, mintable, transferable, {from: contractOwnerAccount, gas: 4000000, gasPrice: defaultGasPrice});
+console.log("RESULT: " + createKeys_Message);
+var createKeys_1Tx = km.createKeys(mining1, voting1, payout1, {from: initial1, gas: 200000, gasPrice: defaultGasPrice});
+var createKeys_2Tx = km.createKeys(mining2, voting2, payout2, {from: initial2, gas: 200000, gasPrice: defaultGasPrice});
+var createKeys_3Tx = km.createKeys(mining3, voting3, payout3, {from: initial3, gas: 200000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
 }
-var bttsTokens = getBTTSFactoryTokenListing();
-console.log("RESULT: bttsTokens=#" + bttsTokens.length + " " + JSON.stringify(bttsTokens));
-// Can check, but the rest will not work anyway - if (bttsTokens.length == 1)
-var tokenAddress = bttsTokens[0];
-var token = web3.eth.contract(tokenAbi).at(tokenAddress);
-// console.log("RESULT: token=" + JSON.stringify(token));
-addAccount(tokenAddress, "Token '" + token.symbol() + "' '" + token.name() + "'");
-addTokenContractAddressAndAbi(tokenAddress, tokenAbi);
 printBalances();
-printTxData("deployTokenTx", deployTokenTx);
-printTokenFactoryContractDetails();
-printTokenContractDetails();
+failIfTxStatusError(createKeys_1Tx, createKeys_Message + " - km.createKeys(mining1, voting1, payout1) from initial1");
+failIfTxStatusError(createKeys_2Tx, createKeys_Message + " - km.createKeys(mining2, voting2, payout2) from initial2");
+failIfTxStatusError(createKeys_3Tx, createKeys_Message + " - km.createKeys(mining3, voting3, payout3) from initial3");
+printTxData("createKeys_1Tx", createKeys_1Tx);
+printTxData("createKeys_1Tx", createKeys_2Tx);
+printTxData("createKeys_1Tx", createKeys_3Tx);
+printKeysManagerContractDetails();
+printPoaNetworkConsensusContractDetails();
 console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var lockedWalletMessage = "Deploy Locked Wallet Contract";
+var finaliseChange_Message = "Setup PoaNetworkConsensus";
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + lockedWalletMessage);
-var lockedWalletContract = web3.eth.contract(lockedWalletAbi);
-// console.log(JSON.stringify(lockedWalletContract));
-var lockedWalletTx = null;
-var lockedWalletAddress = null;
-var lockedWallet = lockedWalletContract.new({from: contractOwnerAccount, data: lockedWalletBin, gas: 6000000, gasPrice: defaultGasPrice},
-  function(e, contract) {
-    if (!e) {
-      if (!contract.address) {
-        lockedWalletTx = contract.transactionHash;
-      } else {
-        lockedWalletAddress = contract.address;
-        addAccount(lockedWalletAddress, "Locked Wallet");
-        addLockedWalletContractAddressAndAbi(lockedWalletAddress, lockedWalletAbi);
-        console.log("DATA: lockedWalletAddress=" + lockedWalletAddress);
-      }
-    }
-  }
-);
+console.log("RESULT: " + finaliseChange_Message);
+var finaliseChange_1Tx = pnc.finalizeChange({from: contractOwnerAccount, gas: 400000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(lockedWalletTx, lockedWalletMessage);
-printTxData("lockedWalletAddress=" + lockedWalletAddress, lockedWalletTx);
-printLockedWalletContractDetails();
+failIfTxStatusError(finaliseChange_1Tx, finaliseChange_Message + " - pnc.finalizeChange");
+printTxData("finaliseChange_1Tx", finaliseChange_1Tx);
+printPoaNetworkConsensusContractDetails();
 console.log("RESULT: ");
 
 
-// -----------------------------------------------------------------------------
-var crowdsaleMessage = "Deploy GazeCoin Crowdsale Contract";
-var bonusListMessage = "Deploy Bonus List Contract";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + crowdsaleMessage);
-var crowdsaleContract = web3.eth.contract(crowdsaleAbi);
-// console.log(JSON.stringify(crowdsaleContract));
-var crowdsaleTx = null;
-var crowdsaleAddress = null;
-var crowdsale = crowdsaleContract.new(wallet, lockedWalletAddress, {from: contractOwnerAccount, data: crowdsaleBin, gas: 6000000, gasPrice: defaultGasPrice},
-  function(e, contract) {
-    if (!e) {
-      if (!contract.address) {
-        crowdsaleTx = contract.transactionHash;
-      } else {
-        crowdsaleAddress = contract.address;
-        addAccount(crowdsaleAddress, "GazeCoin Crowdsale");
-        addCrowdsaleContractAddressAndAbi(crowdsaleAddress, crowdsaleAbi);
-        console.log("DATA: crowdsaleAddress=" + crowdsaleAddress);
-      }
-    }
-  }
-);
-console.log("RESULT: " + bonusListMessage);
-var bonusListContract = web3.eth.contract(bonusListAbi);
-// console.log(JSON.stringify(bonusListContract));
-var bonusListTx = null;
-var bonusListAddress = null;
-var bonusList = bonusListContract.new({from: contractOwnerAccount, data: bonusListBin, gas: 6000000, gasPrice: defaultGasPrice},
-  function(e, contract) {
-    if (!e) {
-      if (!contract.address) {
-        bonusListTx = contract.transactionHash;
-      } else {
-        bonusListAddress = contract.address;
-        addAccount(bonusListAddress, "Bonus List");
-        addBonusListContractAddressAndAbi(bonusListAddress, bonusListAbi);
-        console.log("DATA: bonusListAddress=" + bonusListAddress);
-      }
-    }
-  }
-);
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(crowdsaleTx, crowdsaleMessage);
-failIfTxStatusError(bonusListTx, bonusListMessage);
-printTxData("crowdsaleAddress=" + crowdsaleAddress, crowdsaleTx);
-printTxData("bonusListAddress=" + bonusListAddress, bonusListTx);
-printCrowdsaleContractDetails();
-printBonusListContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var setup_Message = "Setup";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + setup_Message);
-var setup_1Tx = crowdsale.setBTTSToken(tokenAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setup_2Tx = crowdsale.setBonusList(bonusListAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setup_3Tx = crowdsale.setEndDate($END_DATE, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setup_4Tx = token.setMinter(crowdsaleAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setup_5Tx = bonusList.add([account4], 1, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setup_6Tx = bonusList.add([account5], 2, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(setup_1Tx, setup_Message + " - crowdsale.setBTTSToken(tokenAddress)");
-failIfTxStatusError(setup_2Tx, setup_Message + " - crowdsale.setBonusList(bonusListAddress)");
-failIfTxStatusError(setup_3Tx, setup_Message + " - crowdsale.setEndDate($END_DATE)");
-failIfTxStatusError(setup_4Tx, setup_Message + " - token.setMinter(crowdsaleAddress)");
-failIfTxStatusError(setup_5Tx, setup_Message + " - bonusList.add([account4], 1)");
-failIfTxStatusError(setup_6Tx, setup_Message + " - bonusList.add([account5], 2)");
-printTxData("setup_1Tx", setup_1Tx);
-printTxData("setup_2Tx", setup_2Tx);
-printTxData("setup_3Tx", setup_3Tx);
-printTxData("setup_4Tx", setup_4Tx);
-printTxData("setup_5Tx", setup_5Tx);
-printTxData("setup_6Tx", setup_6Tx);
-printCrowdsaleContractDetails();
-printBonusListContractDetails();
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var addPrecommitment_Message = "Add Precommitment";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + addPrecommitment_Message);
-var addPrecommitment_1Tx = crowdsale.addPrecommitment(account8, web3.toWei(1000, "ether"), 35, {from: contractOwnerAccount, gas: 1000000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(addPrecommitment_1Tx, addPrecommitment_Message);
-printTxData("addPrecommitment_1Tx", addPrecommitment_1Tx);
-printCrowdsaleContractDetails();
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-waitUntil("START_DATE", crowdsale.START_DATE(), 0);
-
-
-// -----------------------------------------------------------------------------
-var sendContribution1Message = "Send Contribution #1";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution1Message);
-var sendContribution1_1Tx = eth.sendTransaction({from: account4, to: crowdsaleAddress, gas: 400000, value: web3.toWei("100", "ether")});
-var sendContribution1_2Tx = eth.sendTransaction({from: account5, to: crowdsaleAddress, gas: 400000, value: web3.toWei("100", "ether")});
-var sendContribution1_3Tx = eth.sendTransaction({from: account6, to: crowdsaleAddress, gas: 400000, value: web3.toWei("100", "ether")});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac4 100 ETH - Bonus Tier 1 20%");
-failIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac5 100 ETH - Bonus Tier 2 15%");
-failIfTxStatusError(sendContribution1_3Tx, sendContribution1Message + " - ac6 100 ETH - No Bonus");
-printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
-printTxData("sendContribution1_2Tx", sendContribution1_2Tx);
-printCrowdsaleContractDetails();
-printTokenContractDetails();
-printLockedWalletContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var sendContribution2Message = "Send Contribution #2";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution2Message);
-var sendContribution2_1Tx = eth.sendTransaction({from: account6, to: crowdsaleAddress, gas: 400000, value: web3.toWei("50000", "ether")});
-while (txpool.status.pending > 0) {
-}
-var sendContribution2_2Tx = eth.sendTransaction({from: account7, to: crowdsaleAddress, gas: 400000, value: web3.toWei("30000", "ether")});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(sendContribution2_1Tx, sendContribution2Message + " - ac6 50,000 ETH");
-failIfTxStatusError(sendContribution2_2Tx, sendContribution2Message + " - ac7 30,000 ETH");
-printTxData("sendContribution2_1Tx", sendContribution2_1Tx);
-printTxData("sendContribution2_2Tx", sendContribution2_2Tx);
-printCrowdsaleContractDetails();
-printTokenContractDetails();
-printLockedWalletContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var addPrecommitmentAdjustment_Message = "Add Precommitment Adjustment";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + addPrecommitmentAdjustment_Message);
-var addPrecommitmentAdjustment_1Tx = crowdsale.addPrecommitmentAdjustment(account8, new BigNumber("111").shift(18), {from: contractOwnerAccount, gas: 1000000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(addPrecommitmentAdjustment_1Tx, addPrecommitmentAdjustment_Message);
-printTxData("addPrecommitmentAdjustment_1Tx", addPrecommitmentAdjustment_1Tx);
-printCrowdsaleContractDetails();
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var finalise_Message = "Finalise Crowdsale";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + finalise_Message);
-var finalise_1Tx = crowdsale.finalise({from: contractOwnerAccount, gas: 1000000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(finalise_1Tx, finalise_Message);
-printTxData("finalise_1Tx", finalise_1Tx);
-printCrowdsaleContractDetails();
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-exit;
-
-// -----------------------------------------------------------------------------
-var whitelistAccounts_Message = "Whitelist Accounts";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + whitelistAccounts_Message);
-var whitelistAccounts_1Tx = whitelist.multiAdd([account3, account5], [1, 1], {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(whitelistAccounts_1Tx, whitelistAccounts_Message + " - multiAdd([account3, account4, account5], [1, 1, 1])");
-printTxData("whitelistAccounts_1Tx", whitelistAccounts_1Tx);
-printWhitelistContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var picopsCertifierMessage = "Deploy Test PICOPS Certifier Contract";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + picopsCertifierMessage);
-var picopsCertifierContract = web3.eth.contract(picopsCertifierAbi);
-// console.log(JSON.stringify(picopsCertifierContract));
-var picopsCertifierTx = null;
-var picopsCertifierAddress = null;
-var picopsCertifier = picopsCertifierContract.new({from: contractOwnerAccount, data: picopsCertifierBin, gas: 6000000, gasPrice: defaultGasPrice},
-  function(e, contract) {
-    if (!e) {
-      if (!contract.address) {
-        picopsCertifierTx = contract.transactionHash;
-      } else {
-        picopsCertifierAddress = contract.address;
-        addAccount(picopsCertifierAddress, "Test PICOPS Certifier");
-        console.log("DATA: picopsCertifierAddress=" + picopsCertifierAddress);
-      }
-    }
-  }
-);
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(picopsCertifierTx, picopsCertifierMessage);
-printTxData("picopsCertifierAddress=" + picopsCertifierAddress, picopsCertifierTx);
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var tokenMessage = "Deploy Token Contract";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + tokenMessage);
-var tokenContract = web3.eth.contract(tokenAbi);
-// console.log(JSON.stringify(tokenContract));
-var tokenTx = null;
-var tokenAddress = null;
-var token = tokenContract.new(wallet, {from: contractOwnerAccount, data: tokenBin, gas: 6000000, gasPrice: defaultGasPrice},
-  function(e, contract) {
-    if (!e) {
-      if (!contract.address) {
-        tokenTx = contract.transactionHash;
-      } else {
-        tokenAddress = contract.address;
-        addAccount(tokenAddress, "Token '" + token.symbol() + "' '" + token.name() + "'");
-        addTokenContractAddressAndAbi(tokenAddress, tokenAbi);
-        console.log("DATA: tokenAddress=" + tokenAddress);
-      }
-    }
-  }
-);
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(tokenTx, tokenMessage);
-printTxData("tokenAddress=" + tokenAddress, tokenTx);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var setTokenParameters_Message = "Set Token Contract Parameters";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + setTokenParameters_Message);
-var setTokenParameters_1Tx = token.setEthMinContribution(web3.toWei(10, "ether"), {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_2Tx = token.setUsdCap(2200000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_3Tx = token.setUsdPerKEther(444444, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_4Tx = token.setWhitelist(whitelistAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_5Tx = token.setPICOPSCertifier(picopsCertifierAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(setTokenParameters_1Tx, setTokenParameters_Message + " - token.setEthMinContribution(10 ETH)");
-failIfTxStatusError(setTokenParameters_2Tx, setTokenParameters_Message + " - token.setUsdCap(2,200,000)");
-failIfTxStatusError(setTokenParameters_3Tx, setTokenParameters_Message + " - token.setUsdPerKEther(444,444)");
-failIfTxStatusError(setTokenParameters_4Tx, setTokenParameters_Message + " - token.setWhitelist(whitelistAddress)");
-failIfTxStatusError(setTokenParameters_5Tx, setTokenParameters_Message + " - token.setPICOPSCertifier(picopsCertifierAddress)");
-printTxData("setTokenParameters_1Tx", setTokenParameters_1Tx);
-printTxData("setTokenParameters_2Tx", setTokenParameters_2Tx);
-printTxData("setTokenParameters_3Tx", setTokenParameters_3Tx);
-printTxData("setTokenParameters_4Tx", setTokenParameters_4Tx);
-printTxData("setTokenParameters_5Tx", setTokenParameters_5Tx);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-waitUntil("START_DATE", token.START_DATE(), 0);
-
-
-// -----------------------------------------------------------------------------
-var sendContribution1Message = "Send Contribution #1";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution1Message);
-var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
-var sendContribution1_2Tx = eth.sendTransaction({from: account6, to: tokenAddress, gas: 400000, value: web3.toWei("3000", "ether")});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac3 4,000 ETH");
-passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac6 3,000 ETH - Expecting failure as not whitelisted");
-printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
-printTxData("sendContribution1_2Tx", sendContribution1_2Tx);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var sendContribution2Message = "Send Contribution #2";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution2Message);
-var sendContribution2_1Tx = eth.sendTransaction({from: account4, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-failIfTxStatusError(sendContribution2_1Tx, sendContribution2Message + " - ac4 4,000 ETH - Only partial amount accepted");
-printTxData("sendContribution2_1Tx", sendContribution2_1Tx);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var sendContribution3Message = "Send Contribution #3";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution3Message);
-var sendContribution3_1Tx = eth.sendTransaction({from: account5, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-passIfTxStatusError(sendContribution3_1Tx, sendContribution3Message + " - ac5 4,000 ETH - Expecting failure");
-printTxData("sendContribution3_1Tx", sendContribution3_1Tx);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-exit;
-
-// -----------------------------------------------------------------------------
-var moveToken1_Message = "Move Tokens After Presale - To Redemption Wallet";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + moveToken1_Message);
-var moveToken1_1Tx = token.transfer(redemptionWallet, "1000000", {from: account3, gas: 100000});
-var moveToken1_2Tx = token.approve(account6,  "30000000", {from: account4, gas: 100000});
-while (txpool.status.pending > 0) {
-}
-var moveToken1_3Tx = token.transferFrom(account4, redemptionWallet, "30000000", {from: account6, gas: 100000});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-printTxData("moveToken1_1Tx", moveToken1_1Tx);
-printTxData("moveToken1_2Tx", moveToken1_2Tx);
-printTxData("moveToken1_3Tx", moveToken1_3Tx);
-failIfTxStatusError(moveToken1_1Tx, moveToken1_Message + " - transfer 1 token ac3 -> redemptionWallet. CHECK for movement");
-failIfTxStatusError(moveToken1_2Tx, moveToken1_Message + " - approve 30 tokens ac4 -> ac6");
-failIfTxStatusError(moveToken1_3Tx, moveToken1_Message + " - transferFrom 30 tokens ac4 -> redemptionWallet by ac6. CHECK for movement");
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var moveToken2_Message = "Move Tokens After Presale - Not To Redemption Wallet";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + moveToken2_Message);
-var moveToken2_1Tx = token.transfer(account5, "1000000", {from: account3, gas: 100000});
-var moveToken2_2Tx = token.approve(account6,  "30000000", {from: account4, gas: 100000});
-while (txpool.status.pending > 0) {
-}
-var moveToken2_3Tx = token.transferFrom(account4, account7, "30000000", {from: account6, gas: 100000});
-while (txpool.status.pending > 0) {
-}
-printBalances();
-printTxData("moveToken2_1Tx", moveToken2_1Tx);
-printTxData("moveToken2_2Tx", moveToken2_2Tx);
-printTxData("moveToken2_3Tx", moveToken2_3Tx);
-passIfTxStatusError(moveToken2_1Tx, moveToken2_Message + " - transfer 1 token ac3 -> ac5. Expecting failure");
-failIfTxStatusError(moveToken2_2Tx, moveToken2_Message + " - approve 30 tokens ac4 -> ac6");
-passIfTxStatusError(moveToken2_3Tx, moveToken2_Message + " - transferFrom 30 tokens ac4 -> ac7 by ac6. Expecting failure");
-printTokenContractDetails();
-console.log("RESULT: ");
 
 
 EOF
